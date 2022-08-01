@@ -1,2 +1,2 @@
-# pejabat-gorilas
-Web Application for Pajaten Barat Gorilas Baseball Softball Club
+# gogen-cmd
+Command line application for gogen project
