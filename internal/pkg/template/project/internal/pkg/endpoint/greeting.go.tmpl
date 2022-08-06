@@ -1,0 +1,34 @@
+package endpoint
+
+import (
+	"context"
+	"fmt"
+	"github.com/go-kit/kit/endpoint"
+	validator "github.com/paulusrobin/gogen-golib/validator/interface"
+	"{{.ProjectModule}}/internal/config"
+	"{{.ProjectModule}}/internal/pkg/greeting"
+	"{{.ProjectModule}}/internal/pkg/greeting/payload"
+)
+
+// GreetingParam parameter.
+type GreetingParam struct {
+	Cfg        config.Config
+    UseCase    greeting.UseCase
+    Validation validator.Validation
+}
+
+// GreetingEndpoint endpoint.
+func GreetingEndpoint(param GreetingParam) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+		greetingRequest, ok := request.(payload.GreetingRequest)
+		if !ok {
+			return nil, fmt.Errorf("invalid request")
+		}
+
+		response, err := param.UseCase.Greet(ctx, greetingRequest)
+		if err != nil {
+			return nil, err
+		}
+		return response, nil
+	}
+}

@@ -1,0 +1,28 @@
+package payload
+
+import (
+	"github.com/labstack/echo/v4"
+	"github.com/paulusrobin/gogen-golib/mandatory"
+	validator "github.com/paulusrobin/gogen-golib/validator/interface"
+)
+
+type (
+	{{.FunctionName}}Request struct {
+		Mandatory  mandatory.Request
+	}
+	{{.FunctionName}}Response struct {
+	}
+)
+
+func Decode{{.FunctionName}}Request(validator validator.Validation) func(c echo.Context) (interface{}, error) {
+	return func(c echo.Context) (interface{}, error) {
+		var request {{.FunctionName}}Request
+		if err := c.Bind(&request); err != nil {
+			return nil, err
+		}
+		if err := validator.Validator(request.Mandatory.Language()).Struct(request); err != nil {
+            return nil, err
+        }
+		return request, nil
+	}
+}

@@ -1,0 +1,14 @@
+{
+  "ProjectName": "example",
+  "ProjectModule": "github.com/paulusrobin/example",
+  "PackageName": "user",
+  "EndpointName": "greeting",
+  "FunctionName": "greet",
+  "RuntimeBusinessConfigs": [
+    {
+      "LowerCamelBusinessConfigName": "businessConfig",
+      "UpperCamelBusinessConfigName": "BusinessConfig",
+      "UpperBusinessConfigName": "BUSINESS_CONFIG"
+    }
+  ]
+}

@@ -20,6 +20,14 @@ help h:
 #===================#
 DOCKER_COMPOSE_FILE ?= docker-compose.yaml
 
+environment:
+	@echo "==========================="
+	@echo "Prepare Environment"
+	@echo "==========================="
+	make go-private
+	go mod tidy
+	cp .env.sample .env
+
 #===============#
 #== App Build ==#
 #===============#
@@ -86,11 +94,11 @@ docker-clean: docker-stop
 
 docker-restart: docker-stop docker-start
 
-environment: ## The only command needed to start a working environment
-environment: remove-env-file docker-restart create-env-file go-private build-native
+docker-environment: ## The only command needed to start a working environment
+docker-environment: remove-env-file docker-restart create-env-file go-private build-native
 
-environment-clean: ## The only command needed to clean the environment
-environment-clean: docker-clean clean
+docker-environment-clean: ## The only command needed to clean the environment
+docker-environment-clean: docker-clean clean
 
 
 #====================#

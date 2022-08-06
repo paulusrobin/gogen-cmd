@@ -1,0 +1,41 @@
+package config
+
+import (
+	consulViper "github.com/paulusrobin/gogen-golib/remote-config/consul/integrations/viper"
+	consul "github.com/paulusrobin/gogen-golib/remote-config/consul/interface"
+	"github.com/pkg/errors"
+	"sync"
+)
+
+type (
+	{{.LowerCamelBusinessConfigName}} struct {
+		sync.Mutex
+	}
+)
+
+var runtime{{.UpperCamelBusinessConfigName}} = new{{.UpperCamelBusinessConfigName}}()
+
+func new{{.UpperCamelBusinessConfigName}}() {{.LowerCamelBusinessConfigName}} {
+	// fallback values
+	return {{.BusinessConfigName}}{}
+}
+
+func provide{{.UpperCamelBusinessConfigName}}(cfg Config) {
+	reader, err := consulViper.NewConsulReader(consul.Config{
+		Connection: consul.ConnectionConfig{
+			Host:  cfg.Consul.Host,
+			Port:  cfg.Consul.Port,
+			Token: cfg.Consul.Token,
+			Key:   cfg.Consul.Key{{.UpperCamelBusinessConfigName}},
+		},
+		ConfigType: "json",
+		Interval:   cfg.Consul.RefreshInterval{{.UpperCamelBusinessConfigName}},
+	})
+	if err != nil {
+		panic(errors.Wrap(err, "cannot initialize consul reader"))
+	}
+
+	if err = reader.Read(&runtime{{.UpperCamelBusinessConfigName}}); err != nil {
+		panic(errors.Wrap(err, "cannot initialize consul {{.UpperCamelBusinessConfigName}} variable"))
+	}
+}
