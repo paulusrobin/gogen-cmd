@@ -17,7 +17,7 @@ func Generate(cfg helper.ProjectConfig) error {
 		"docker-compose.yaml": "project/root/docker-compose.yaml",
 		"Dockerfile":          "project/root/Dockerfile",
 		"Dockerfile-builder":  "project/root/Dockerfile-builder",
-		"go.mod":              "project/root/go.mod",
+		"go.mod":              "project/root/go.mod.tmpl",
 		"Makefile":            "project/root/Makefile",
 		"README.md":           "project/root/README.md",
 	}
