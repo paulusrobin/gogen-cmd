@@ -1,13 +1,12 @@
-package helper
+package file
 
 import (
-	"github.com/paulusrobin/gogen-cmd/internal/pkg/file"
 	"text/template"
 )
 
 // Generate function to generate file.
 func Generate(outputPath, content string, parameters map[string]interface{}) error {
-	f, err := file.New(outputPath)
+	f, err := New(outputPath)
 	if err != nil {
 		return err
 	}

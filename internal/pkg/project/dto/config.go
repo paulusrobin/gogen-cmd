@@ -1,4 +1,4 @@
-package helper
+package dto
 
 type (
 	ProjectConfig struct {

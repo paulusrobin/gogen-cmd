@@ -2,22 +2,24 @@ package internal
 
 import (
 	"fmt"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/convention"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/directory"
-	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/helper"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/file"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/dto"
 	"path"
 )
 
 // AddUsecase function.
-func AddUsecase(parameter helper.AddUsecaseParameter) error {
+func AddUsecase(parameter dto.AddUsecaseParameter) error {
 	parameters := map[string]interface{}{
 		"ProjectName":   parameter.Name,
 		"ProjectModule": parameter.Module,
-		"PackageName":   helper.PackageName(parameter.PackageName),
-		"FunctionName":  helper.EndpointName(parameter.FunctionName),
+		"PackageName":   convention.PackageName(parameter.PackageName),
+		"FunctionName":  convention.EndpointName(parameter.FunctionName),
 	}
 
-	packageFileName := helper.FileName(parameter.PackageName)
-	usecaseFileName := helper.FileName(parameter.FunctionName)
+	packageFileName := convention.FileName(parameter.PackageName)
+	usecaseFileName := convention.FileName(parameter.FunctionName)
 
 	generatedFolders := []string{
 		"internal",
@@ -41,7 +43,7 @@ func AddUsecase(parameter helper.AddUsecaseParameter) error {
 	}
 
 	for outputFile, templatePath := range generatedFiles {
-		if err := helper.Generate(path.Join(parameter.Path, outputFile), templatePath, parameters); err != nil {
+		if err := file.Generate(path.Join(parameter.Path, outputFile), templatePath, parameters); err != nil {
 			return err
 		}
 	}

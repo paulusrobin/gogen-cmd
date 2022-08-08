@@ -1,12 +1,13 @@
 package root
 
 import (
-	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/helper"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/file"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/dto"
 	"path"
 )
 
 // Generate function to generate root folder files.
-func Generate(cfg helper.ProjectConfig) error {
+func Generate(cfg dto.ProjectConfig) error {
 	parameters := map[string]interface{}{
 		"ProjectName":   cfg.Name,
 		"ProjectModule": cfg.Module,
@@ -23,7 +24,7 @@ func Generate(cfg helper.ProjectConfig) error {
 	}
 
 	for outputFile, content := range generatedFiles {
-		if err := helper.Generate(path.Join(cfg.Path, cfg.Name, outputFile), content, parameters); err != nil {
+		if err := file.Generate(path.Join(cfg.Path, cfg.Name, outputFile), content, parameters); err != nil {
 			return err
 		}
 	}

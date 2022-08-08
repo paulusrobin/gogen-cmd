@@ -2,22 +2,24 @@ package internal
 
 import (
 	"fmt"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/convention"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/directory"
-	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/helper"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/file"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/dto"
 	"path"
 )
 
 // AddEndpoint function.
-func AddEndpoint(parameter helper.AddEndpointParameter) error {
+func AddEndpoint(parameter dto.AddEndpointParameter) error {
 	parameters := map[string]interface{}{
 		"ProjectName":   parameter.Name,
 		"ProjectModule": parameter.Module,
-		"PackageName":   helper.PackageName(parameter.PackageName),
-		"EndpointName":  helper.EndpointName(parameter.EndpointName),
+		"PackageName":   convention.PackageName(parameter.PackageName),
+		"EndpointName":  convention.EndpointName(parameter.EndpointName),
 	}
 
-	packageFileName := helper.FileName(parameter.PackageName)
-	endpointFileName := helper.FileName(parameter.EndpointName)
+	packageFileName := convention.FileName(parameter.PackageName)
+	endpointFileName := convention.FileName(parameter.EndpointName)
 
 	generatedFolders := []string{
 		"internal",
@@ -41,7 +43,7 @@ func AddEndpoint(parameter helper.AddEndpointParameter) error {
 	}
 
 	for outputFile, templatePath := range generatedFiles {
-		if err := helper.Generate(path.Join(parameter.Path, outputFile), templatePath, parameters); err != nil {
+		if err := file.Generate(path.Join(parameter.Path, outputFile), templatePath, parameters); err != nil {
 			return err
 		}
 	}
