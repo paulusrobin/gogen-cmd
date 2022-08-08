@@ -4,14 +4,14 @@ import _ "embed"
 
 var (
 	//go:embed resources/grpc/grpc.go.tmpl
-	grpcTemplate string
+	grpcTemplate []byte
 
 	//go:embed resources/http/http.go.tmpl
-	httpTemplate string
+	httpTemplate []byte
 
 	//go:embed resources/subscriber/subscriber.go.tmpl
-	subscriberTemplate string
+	subscriberTemplate []byte
 
 	//go:embed resources/main.go.tmpl
-	mainTemplate string
+	mainTemplate []byte
 )
