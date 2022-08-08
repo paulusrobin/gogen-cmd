@@ -1,7 +1,6 @@
 package internal
 
 import (
-	"fmt"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/directory"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/file"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/dto"
@@ -67,19 +66,15 @@ func Generate(cfg dto.ProjectConfig) error {
 }
 
 // GeneratePackage function to generate new internal pkg folder files.
-func GeneratePackage(parameters dto.Parameters) error {
-	generatedPath := path.Join(parameters.Path, parameters.Name, parameters.PackageName)
-	if directory.Exist(generatedPath) {
-		return fmt.Errorf("package is exists")
-	}
-	if err := directory.Make(generatedPath); err != nil {
-		return err
-	}
-	if err := file.Generate(path.Join(generatedPath, "usecase.go"), string(pkgUsecaseTemplate), map[string]interface{}{
-		"ProjectName":   parameters.Name,
-		"ProjectModule": parameters.Module,
-		"PackageName":   parameters.PackageName,
-	}); err != nil {
+func GeneratePackage(parameters dto.GeneratePackage) error {
+	if err := file.Generate(
+		path.Join(parameters.Path, "internal/pkg", parameters.PackageName, "usecase.go"),
+		string(pkgUsecaseTemplate),
+		map[string]interface{}{
+			"ProjectName":   parameters.Name,
+			"ProjectModule": parameters.Module,
+			"PackageName":   parameters.PackageName,
+		}); err != nil {
 		return err
 	}
 	return nil
