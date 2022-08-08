@@ -2,6 +2,8 @@ package main
 
 import (
 	"github.com/paulusrobin/gogen-cmd/cmd/initialize"
+	"github.com/paulusrobin/gogen-cmd/cmd/pkg/endpoint"
+	"github.com/paulusrobin/gogen-cmd/cmd/pkg/usecase"
 	"github.com/spf13/cobra"
 )
 
@@ -13,6 +15,8 @@ var cmd = &cobra.Command{
 func main() {
 	cmd.AddCommand(
 		initialize.Cmd(),
+		endpoint.Cmd(),
+		usecase.Cmd(),
 	)
 
 	// execute command

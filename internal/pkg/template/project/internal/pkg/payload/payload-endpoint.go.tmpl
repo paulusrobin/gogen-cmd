@@ -7,16 +7,16 @@ import (
 )
 
 type (
-	{{.FunctionName}}Request struct {
+	{{.EndpointName}}Request struct {
 		Mandatory  mandatory.Request
 	}
-	{{.FunctionName}}Response struct {
+	{{.EndpointName}}Response struct {
 	}
 )
 
-func Decode{{.FunctionName}}Request(validator validator.Validation) func(c echo.Context) (interface{}, error) {
+func Decode{{.EndpointName}}Request(validator validator.Validation) func(c echo.Context) (interface{}, error) {
 	return func(c echo.Context) (interface{}, error) {
-		var request {{.FunctionName}}Request
+		var request {{.EndpointName}}Request
 		if err := c.Bind(&request); err != nil {
 			return nil, err
 		}

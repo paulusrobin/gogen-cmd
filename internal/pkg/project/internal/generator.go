@@ -9,10 +9,8 @@ import (
 // Generate function to generate internal folder files.
 func Generate(cfg helper.ProjectConfig) error {
 	parameters := map[string]interface{}{
-		"ProjectName":            cfg.Name,
-		"ProjectModule":          cfg.Module,
-		"PackageName":            "greeting",
-		"RuntimeBusinessConfigs": []map[string]interface{}{},
+		"ProjectName":   cfg.Name,
+		"ProjectModule": cfg.Module,
 	}
 	generatedFolders := []string{
 		"internal",

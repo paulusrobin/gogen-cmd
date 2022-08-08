@@ -21,8 +21,7 @@ func init() {
 	requiredFlags = []string{"name", "module"}
 }
 
-func initProject(cmd *cobra.Command, args []string) error {
-	log.Printf("project helper:\nproject name: %s\nproject module: %s", projectName, projectModule)
+func runner(cmd *cobra.Command, args []string) error {
 	log.Printf("start initialiazing project")
 
 	var basePath = directory.Pwd()
@@ -52,7 +51,7 @@ func initProject(cmd *cobra.Command, args []string) error {
 func Cmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "init",
-		Short: "gogen initialize is command to generate gogen project",
+		Short: "generate new gogen project",
 		PreRunE: func(cmd *cobra.Command, args []string) error {
 			for _, required := range requiredFlags {
 				if err := cmd.MarkFlagRequired(required); err != nil {
@@ -61,7 +60,7 @@ func Cmd() *cobra.Command {
 			}
 			return nil
 		},
-		RunE: initProject,
+		RunE: runner,
 	}
 	cmd.Flags().StringVarP(&projectName, "name", "n", "", "generated project name (required)")
 	cmd.Flags().StringVarP(&projectModule, "module", "m", "", "generated project module (required)")
