@@ -11,6 +11,7 @@ func Generate(cfg helper.ProjectConfig) error {
 	parameters := map[string]interface{}{
 		"ProjectName":   cfg.Name,
 		"ProjectModule": cfg.Module,
+		"PackageName":   "greeting",
 	}
 	generatedFolders := []string{
 		"internal",
@@ -29,28 +30,34 @@ func Generate(cfg helper.ProjectConfig) error {
 		"internal/server/transport/subscriber",
 	}
 	generatedFiles := map[string]string{
-		"internal/config/config.go":                  "project/internal/config/config.go.tmpl",
-		"internal/config/provider.go":                "project/internal/config/provider.go.tmpl",
-		"internal/pkg/greeting/endpoint/greeting.go": "project/internal/pkg/endpoint/greeting.go.tmpl",
-		"internal/pkg/greeting/payload/greeting.go":  "project/internal/pkg/payload/greeting.go.tmpl",
-		"internal/pkg/greeting/usecase/greeting.go":  "project/internal/pkg/usecase/greeting.go.tmpl",
-		"internal/pkg/greeting/usecase/root.go":      "project/internal/pkg/usecase/root.go.tmpl",
-		"internal/pkg/greeting/usecase.go":           "project/internal/pkg/greeting.go.tmpl",
-		"internal/server/transport/http/http.go":     "project/internal/server/transport/http/http.go.tmpl",
-		"internal/server/server.go":                  "project/internal/server/server.go.tmpl",
-		"internal/server/grpc.go":                    "project/internal/server/grpc.go.tmpl",
-		"internal/server/http.go":                    "project/internal/server/http.go.tmpl",
-		"internal/server/subscriber.go":              "project/internal/server/subscriber.go.tmpl",
+		"internal/config/config.go":                      string(configTemplate),
+		"internal/config/provider.go":                    string(configProviderTemplate),
+		"internal/pkg/greeting/endpoint/greeting.go":     string(greetingEndpointTemplate),
+		"internal/pkg/greeting/payload/greeting.go":      string(greetingPayloadTemplate),
+		"internal/pkg/greeting/usecase/greeting.go":      string(greetingUsecaseFunctionTemplate),
+		"internal/pkg/greeting/usecase/root.go":          string(pkgUsecaseRootTemplate),
+		"internal/pkg/greeting/usecase.go":               string(pkgUsecaseTemplate),
+		"internal/server/transport/http/http.go":         string(serverTransportHttpTemplate),
+		"internal/server/transport/grpc/grpc.go":         string(serverTransportGrpcTemplate),
+		"internal/server/transport/subscriber/pubsub.go": string(serverTransportPubsubTemplate),
+		"internal/server/server.go":                      string(serverTemplate),
+		"internal/server/grpc.go":                        string(serverGrpcTemplate),
+		"internal/server/http.go":                        string(serverHttpTemplate),
+		"internal/server/subscriber.go":                  string(serverSubscriberTemplate),
 	}
 
 	for _, folderPath := range generatedFolders {
-		if err := directory.Make(path.Join(cfg.Path, cfg.Name, folderPath)); err != nil {
+		generatedPath := path.Join(cfg.Path, cfg.Name, folderPath)
+		if directory.Exist(generatedPath) {
+			continue
+		}
+		if err := directory.Make(generatedPath); err != nil {
 			return err
 		}
 	}
 
-	for outputFile, templatePath := range generatedFiles {
-		if err := helper.Generate(path.Join(cfg.Path, cfg.Name, outputFile), templatePath, parameters); err != nil {
+	for outputFile, content := range generatedFiles {
+		if err := helper.Generate(path.Join(cfg.Path, cfg.Name, outputFile), content, parameters); err != nil {
 			return err
 		}
 	}

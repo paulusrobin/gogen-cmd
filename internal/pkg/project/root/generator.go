@@ -12,18 +12,18 @@ func Generate(cfg helper.ProjectConfig) error {
 		"ProjectModule": cfg.Module,
 	}
 	generatedFiles := map[string]string{
-		".env.sample":         "project/root/.env.sample",
-		".gitignore":          "project/root/.gitignore",
-		"docker-compose.yaml": "project/root/docker-compose.yaml",
-		"Dockerfile":          "project/root/Dockerfile",
-		"Dockerfile-builder":  "project/root/Dockerfile-builder",
-		"go.mod":              "project/root/go.mod.tmpl",
-		"Makefile":            "project/root/Makefile",
-		"README.md":           "project/root/README.md",
+		".env.sample":         string(envSampleTemplate),
+		".gitignore":          string(gitIgnoreTemplate),
+		"docker-compose.yaml": string(dockerComposeTemplate),
+		"Dockerfile":          string(dockerfileTemplate),
+		"Dockerfile-builder":  string(dockerfileBuilderTemplate),
+		"go.mod":              string(goModTemplate),
+		"Makefile":            string(makefileTemplate),
+		"README.md":           string(readmeTemplate),
 	}
 
-	for outputFile, templatePath := range generatedFiles {
-		if err := helper.Generate(path.Join(cfg.Path, cfg.Name, outputFile), templatePath, parameters); err != nil {
+	for outputFile, content := range generatedFiles {
+		if err := helper.Generate(path.Join(cfg.Path, cfg.Name, outputFile), content, parameters); err != nil {
 			return err
 		}
 	}

@@ -2,11 +2,11 @@ package helper
 
 import (
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/file"
-	"github.com/paulusrobin/gogen-cmd/internal/pkg/template"
+	"text/template"
 )
 
 // Generate function to generate file.
-func Generate(outputPath, templatePath string, parameters map[string]interface{}) error {
+func Generate(outputPath, content string, parameters map[string]interface{}) error {
 	f, err := file.New(outputPath)
 	if err != nil {
 		return err
@@ -14,5 +14,14 @@ func Generate(outputPath, templatePath string, parameters map[string]interface{}
 	defer func() {
 		_ = f.Close()
 	}()
-	return template.Exec(templatePath, parameters, f)
+
+	tmpl, err := template.New("template-parser").Parse(content)
+	if err != nil {
+		return err
+	}
+
+	if err = tmpl.Execute(f, parameters); err != nil {
+		return err
+	}
+	return nil
 }

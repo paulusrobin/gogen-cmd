@@ -12,22 +12,31 @@ func Generate(cfg helper.ProjectConfig) error {
 		"ProjectName":   cfg.Name,
 		"ProjectModule": cfg.Module,
 	}
-	generatedFolders := []string{"cmd", "cmd/grpc", "cmd/http", "cmd/subscriber"}
+	generatedFolders := []string{
+		"cmd",
+		"cmd/grpc",
+		"cmd/http",
+		"cmd/subscriber",
+	}
 	generatedFiles := map[string]string{
-		"cmd/grpc/grpc.go":             "project/cmd/grpc/grpc.go.tmpl",
-		"cmd/http/http.go":             "project/cmd/http/http.go.tmpl",
-		"cmd/subscriber/subscriber.go": "project/cmd/subscriber/subscriber.go.tmpl",
-		"cmd/main.go":                  "project/cmd/main.go.tmpl",
+		"cmd/grpc/grpc.go":             string(grpcTemplate),
+		"cmd/http/http.go":             string(httpTemplate),
+		"cmd/subscriber/subscriber.go": string(subscriberTemplate),
+		"cmd/main.go":                  string(mainTemplate),
 	}
 
 	for _, folderPath := range generatedFolders {
-		if err := directory.Make(path.Join(cfg.Path, cfg.Name, folderPath)); err != nil {
+		generatedPath := path.Join(cfg.Path, cfg.Name, folderPath)
+		if directory.Exist(generatedPath) {
+			continue
+		}
+		if err := directory.Make(generatedPath); err != nil {
 			return err
 		}
 	}
 
-	for outputFile, templatePath := range generatedFiles {
-		if err := helper.Generate(path.Join(cfg.Path, cfg.Name, outputFile), templatePath, parameters); err != nil {
+	for outputFile, content := range generatedFiles {
+		if err := helper.Generate(path.Join(cfg.Path, cfg.Name, outputFile), content, parameters); err != nil {
 			return err
 		}
 	}
