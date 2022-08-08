@@ -29,8 +29,8 @@ func AddEndpoint(parameter dto.AddEndpointParameter) error {
 		fmt.Sprintf("internal/pkg/%s/payload", packageFileName),
 	}
 	generatedFiles := map[string]string{
-		fmt.Sprintf("internal/pkg/%s/payload/%s.go", packageFileName, endpointFileName):  "project/internal/pkg/payload/payload-endpoint.go.tmpl",
-		fmt.Sprintf("internal/pkg/%s/endpoint/%s.go", packageFileName, endpointFileName): "project/internal/pkg/endpoint/endpoint.go.tmpl",
+		fmt.Sprintf("internal/pkg/%s/payload/%s.go", packageFileName, endpointFileName):  string(pkgPayloadEndpointTemplate),
+		fmt.Sprintf("internal/pkg/%s/endpoint/%s.go", packageFileName, endpointFileName): string(pkgEndpointTemplate),
 	}
 
 	for _, folderPath := range generatedFolders {
@@ -42,8 +42,8 @@ func AddEndpoint(parameter dto.AddEndpointParameter) error {
 		}
 	}
 
-	for outputFile, templatePath := range generatedFiles {
-		if err := file.Generate(path.Join(parameter.Path, outputFile), templatePath, parameters); err != nil {
+	for outputFile, content := range generatedFiles {
+		if err := file.Generate(path.Join(parameter.Path, outputFile), content, parameters); err != nil {
 			return err
 		}
 	}

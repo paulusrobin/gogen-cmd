@@ -29,8 +29,8 @@ func AddUsecase(parameter dto.AddUsecaseParameter) error {
 		fmt.Sprintf("internal/pkg/%s/usecase", packageFileName),
 	}
 	generatedFiles := map[string]string{
-		fmt.Sprintf("internal/pkg/%s/payload/%s.go", packageFileName, usecaseFileName):  "project/internal/pkg/payload/payload-usecase.go.tmpl",
-		fmt.Sprintf("internal/pkg/%s/endpoint/%s.go", packageFileName, usecaseFileName): "project/internal/pkg/usecase/function.go.tmpl",
+		fmt.Sprintf("internal/pkg/%s/payload/%s.go", packageFileName, usecaseFileName): string(pkgPayloadUsecaseTemplate),
+		fmt.Sprintf("internal/pkg/%s/usecase/%s.go", packageFileName, usecaseFileName): string(pkgUsecaseFunctionTemplate),
 	}
 
 	for _, folderPath := range generatedFolders {
@@ -42,8 +42,8 @@ func AddUsecase(parameter dto.AddUsecaseParameter) error {
 		}
 	}
 
-	for outputFile, templatePath := range generatedFiles {
-		if err := file.Generate(path.Join(parameter.Path, outputFile), templatePath, parameters); err != nil {
+	for outputFile, content := range generatedFiles {
+		if err := file.Generate(path.Join(parameter.Path, outputFile), content, parameters); err != nil {
 			return err
 		}
 	}

@@ -37,7 +37,7 @@ func Generate(cfg dto.ProjectConfig) error {
 		"internal/pkg/greeting/payload/greeting.go":      string(greetingPayloadTemplate),
 		"internal/pkg/greeting/usecase/greeting.go":      string(greetingUsecaseFunctionTemplate),
 		"internal/pkg/greeting/usecase/root.go":          string(pkgUsecaseRootTemplate),
-		"internal/pkg/greeting/usecase.go":               string(pkgUsecaseTemplate),
+		"internal/pkg/greeting/usecase.go":               string(greetingUsecaseTemplate),
 		"internal/server/transport/http/http.go":         string(serverTransportHttpTemplate),
 		"internal/server/transport/grpc/grpc.go":         string(serverTransportGrpcTemplate),
 		"internal/server/transport/subscriber/pubsub.go": string(serverTransportPubsubTemplate),
