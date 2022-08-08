@@ -1,7 +1,11 @@
 package add
 
 import (
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/directory"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/project"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/helper"
 	"github.com/spf13/cobra"
+	"log"
 )
 
 var (
@@ -17,7 +21,23 @@ func init() {
 }
 
 func runner(cmd *cobra.Command, args []string) error {
-	panic("implement me")
+	log.Printf("adding a usecase")
+
+	var basePath = directory.Pwd()
+	if err := project.AddUsecase(helper.AddUsecaseParameter{
+		ProjectConfig: helper.ProjectConfig{
+			Path:   basePath,
+			Name:   projectName,
+			Module: projectModule,
+		},
+		PackageName:  packageName,
+		FunctionName: functionName,
+	}); err != nil {
+		return err
+	}
+
+	log.Printf("succesfully added a new usecase")
+	return nil
 }
 
 // Cmd expose command runner

@@ -7,28 +7,28 @@ import (
 	"path"
 )
 
-// AddEndpoint function.
-func AddEndpoint(parameter helper.AddEndpointParameter) error {
+// AddUsecase function.
+func AddUsecase(parameter helper.AddUsecaseParameter) error {
 	parameters := map[string]interface{}{
 		"ProjectName":   parameter.Name,
 		"ProjectModule": parameter.Module,
 		"PackageName":   helper.PackageName(parameter.PackageName),
-		"EndpointName":  helper.EndpointName(parameter.EndpointName),
+		"FunctionName":  helper.EndpointName(parameter.FunctionName),
 	}
 
 	packageFileName := helper.FileName(parameter.PackageName)
-	endpointFileName := helper.FileName(parameter.EndpointName)
+	usecaseFileName := helper.FileName(parameter.FunctionName)
 
 	generatedFolders := []string{
 		"internal",
 		"internal/pkg",
 		fmt.Sprintf("internal/pkg/%s", packageFileName),
-		fmt.Sprintf("internal/pkg/%s/endpoint", packageFileName),
 		fmt.Sprintf("internal/pkg/%s/payload", packageFileName),
+		fmt.Sprintf("internal/pkg/%s/usecase", packageFileName),
 	}
 	generatedFiles := map[string]string{
-		fmt.Sprintf("internal/pkg/%s/payload/%s.go", packageFileName, endpointFileName):  "project/internal/pkg/payload/payload-endpoint.go.tmpl",
-		fmt.Sprintf("internal/pkg/%s/endpoint/%s.go", packageFileName, endpointFileName): "project/internal/pkg/endpoint/endpoint.go.tmpl",
+		fmt.Sprintf("internal/pkg/%s/payload/%s.go", packageFileName, usecaseFileName):  "project/internal/pkg/payload/payload-usecase.go.tmpl",
+		fmt.Sprintf("internal/pkg/%s/endpoint/%s.go", packageFileName, usecaseFileName): "project/internal/pkg/usecase/function.go.tmpl",
 	}
 
 	for _, folderPath := range generatedFolders {

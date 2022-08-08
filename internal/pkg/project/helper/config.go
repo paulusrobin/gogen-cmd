@@ -11,4 +11,9 @@ type (
 		PackageName  string
 		EndpointName string
 	}
+	AddUsecaseParameter struct {
+		ProjectConfig
+		PackageName  string
+		FunctionName string
+	}
 )
