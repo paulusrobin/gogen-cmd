@@ -16,4 +16,12 @@ type (
 		PackageName  string
 		FunctionName string
 	}
+	Parameters struct {
+		Path         string
+		Name         string
+		Module       string
+		PackageName  string
+		EndpointName string
+		FunctionName string
+	}
 )
