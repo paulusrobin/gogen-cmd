@@ -1,8 +1,13 @@
 package {{.PackageName}}
 
+import (
+	"context"
+	"{{.ProjectModule}}/internal/pkg/{{.PackageName}}/payload"
+)
+
 // UseCase interface of {{.PackageName}} package.
 type UseCase interface {
-    {{with .UsecaseFunctions}}
-    {{.FunctionName}}(ctx context.Context, request {{.FunctionName}}UsecaseRequest) ({{.FunctionName}}UsecaseResponse, error)
+    {{range $functionName := .UsecaseFunctions}}
+    {{$functionName}}(ctx context.Context, request payload.{{$functionName}}UsecaseRequest) (payload.{{$functionName}}UsecaseResponse, error)
     {{end}}
 }

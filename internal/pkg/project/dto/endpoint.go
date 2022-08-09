@@ -12,7 +12,6 @@ type (
 	}
 	GeneratePackage struct {
 		ProjectConfig
-		PackageName      string
-		UsecaseFunctions []string
+		PackageName string
 	}
 )

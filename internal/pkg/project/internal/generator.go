@@ -1,10 +1,12 @@
 package internal
 
 import (
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/convention"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/directory"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/file"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/dto"
 	"path"
+	"strings"
 )
 
 // Generate function to generate internal folder files.
@@ -67,7 +69,21 @@ func Generate(cfg dto.ProjectConfig) error {
 
 // GeneratePackage function to generate new internal pkg folder files.
 func GeneratePackage(parameters dto.GeneratePackage) error {
-	fileOutput := path.Join(parameters.Path, "internal/pkg", parameters.PackageName, "usecase.go")
+	packagePath := path.Join(parameters.Path, "internal/pkg", parameters.PackageName)
+	fileOutput := path.Join(packagePath, "usecase.go")
+
+	fileNames, err := directory.FileNames(path.Join(packagePath, "usecase"))
+	if err != nil {
+		return err
+	}
+
+	var usecaseFunctions = make([]string, 0)
+	for _, fileName := range fileNames {
+		if strings.ToLower(fileName) == "root.go" {
+			continue
+		}
+		usecaseFunctions = append(usecaseFunctions, convention.FunctionName(fileName))
+	}
 
 	_ = file.Remove(fileOutput)
 	if err := file.Generate(fileOutput, string(pkgUsecaseTemplate),
@@ -75,7 +91,7 @@ func GeneratePackage(parameters dto.GeneratePackage) error {
 			"ProjectName":      parameters.Name,
 			"ProjectModule":    parameters.Module,
 			"PackageName":      parameters.PackageName,
-			"UsecaseFunctions": parameters.UsecaseFunctions,
+			"UsecaseFunctions": usecaseFunctions,
 		}); err != nil {
 		return err
 	}
@@ -85,6 +101,10 @@ func GeneratePackage(parameters dto.GeneratePackage) error {
 // GenerateUsecase function to generate new internal pkg usecase folder files.
 func GenerateUsecase(parameters dto.GenerateUsecase) error {
 	fileOutput := path.Join(parameters.Path, "internal/pkg", parameters.PackageName, "usecase/root.go")
+	if file.Exist(fileOutput) {
+		return nil
+	}
+
 	return file.Generate(fileOutput, string(pkgUsecaseRootTemplate), map[string]interface{}{
 		"ProjectName":   parameters.Name,
 		"ProjectModule": parameters.Module,

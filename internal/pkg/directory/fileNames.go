@@ -2,7 +2,7 @@ package directory
 
 import (
 	"io/fs"
-	"io/ioutil"
+	"path/filepath"
 	"regexp"
 )
 
@@ -12,25 +12,24 @@ var defaultFilter = func(info fs.FileInfo) bool {
 
 // FileNames function to get list file name on directory.
 func FileNames(directoryPath string) ([]string, error) {
-	return FileNamesWithFilter(directoryPath, "*", defaultFilter)
+	return FileNamesWithFilter(directoryPath, "^*.*", defaultFilter)
 }
 
 // FileNamesWithFilter function to get list file name with regex filter on directory.
 func FileNamesWithFilter(directoryPath, filter string, fn func(info fs.FileInfo) bool) ([]string, error) {
 	var fileNames = make([]string, 0)
-
-	files, err := ioutil.ReadDir(directoryPath)
-	if err != nil {
-		return fileNames, err
-	}
-
-	for _, file := range files {
-		if defaultFilter(file) {
-			if matched, err := regexp.Match(filter, []byte(file.Name())); err != nil || !matched {
-				continue
-			}
-			fileNames = append(fileNames, file.Name())
+	err := filepath.Walk(directoryPath, func(path string, info fs.FileInfo, err error) error {
+		if err != nil {
+			return err
 		}
-	}
-	return fileNames, nil
+		if !fn(info) {
+			return nil
+		}
+		if matched, err := regexp.Match(filter, []byte(info.Name())); err != nil || !matched {
+			return err
+		}
+		fileNames = append(fileNames, info.Name())
+		return nil
+	})
+	return fileNames, err
 }

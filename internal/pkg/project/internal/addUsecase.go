@@ -6,7 +6,6 @@ import (
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/directory"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/file"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/dto"
-	"io/fs"
 	"path"
 )
 
@@ -50,22 +49,19 @@ func AddUsecase(parameter dto.AddUsecaseParameter) error {
 		}
 	}
 
-	_ = GenerateUsecase(dto.GenerateUsecase{
+	if err := GenerateUsecase(dto.GenerateUsecase{
 		ProjectConfig: parameter.ProjectConfig,
 		PackageName:   packageFileName,
-	})
+	}); err != nil {
+		return err
+	}
 
-	fileNames, _ := directory.FileNamesWithFilter(
-		path.Join(parameter.Path, fmt.Sprintf("internal/pkg/%s/usecase", packageFileName)),
-		"*.go",
-		func(info fs.FileInfo) bool {
-			return info.IsDir()
-		})
-	_ = GeneratePackage(dto.GeneratePackage{
-		ProjectConfig:    parameter.ProjectConfig,
-		PackageName:      packageFileName,
-		UsecaseFunctions: fileNames,
-	})
+	if err := GeneratePackage(dto.GeneratePackage{
+		ProjectConfig: parameter.ProjectConfig,
+		PackageName:   packageFileName,
+	}); err != nil {
+		return err
+	}
 
 	return nil
 }
