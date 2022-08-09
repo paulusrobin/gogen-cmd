@@ -21,33 +21,25 @@ func AddUsecase(parameter dto.AddUsecaseParameter) error {
 	packageFileName := convention.FileName(parameter.PackageName)
 	usecaseFileName := convention.FileName(parameter.FunctionName)
 
-	generatedFolders := []dto.ProjectPath{
-		{"internal", false},
-		{"internal/pkg", false},
-		{fmt.Sprintf("internal/pkg/%s", packageFileName), true},
-		{fmt.Sprintf("internal/pkg/%s/payload", packageFileName), false},
-		{fmt.Sprintf("internal/pkg/%s/usecase", packageFileName), false},
+	generatedFolders := []string{
+		"internal",
+		"internal/pkg",
+		fmt.Sprintf("internal/pkg/%s", packageFileName),
+		fmt.Sprintf("internal/pkg/%s/payload", packageFileName),
+		fmt.Sprintf("internal/pkg/%s/usecase", packageFileName),
 	}
 	generatedFiles := map[string]string{
 		fmt.Sprintf("internal/pkg/%s/payload/%sUsecase.go", packageFileName, usecaseFileName): string(pkgPayloadUsecaseTemplate),
 		fmt.Sprintf("internal/pkg/%s/usecase/%s.go", packageFileName, usecaseFileName):        string(pkgUsecaseFunctionTemplate),
 	}
 
-	for _, folder := range generatedFolders {
-		generatedPath := path.Join(parameter.Path, folder.Path)
+	for _, folderPath := range generatedFolders {
+		generatedPath := path.Join(parameter.Path, folderPath)
 		if directory.Exist(generatedPath) {
 			continue
 		}
 		if err := directory.Make(generatedPath); err != nil {
 			return err
-		}
-		if folder.IsPackage {
-			if err := GeneratePackage(dto.GeneratePackage{
-				ProjectConfig: parameter.ProjectConfig,
-				PackageName:   packageFileName,
-			}); err != nil {
-				return err
-			}
 		}
 	}
 
@@ -56,5 +48,14 @@ func AddUsecase(parameter dto.AddUsecaseParameter) error {
 			return err
 		}
 	}
+
+	// TODO: get list functions name of package's usecase
+	if err := GeneratePackage(dto.GeneratePackage{
+		ProjectConfig: parameter.ProjectConfig,
+		PackageName:   packageFileName,
+	}); err != nil {
+		return err
+	}
+
 	return nil
 }

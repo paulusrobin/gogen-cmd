@@ -6,8 +6,4 @@ type (
 		Name   string
 		Module string
 	}
-	ProjectPath struct {
-		Path      string
-		IsPackage bool
-	}
 )

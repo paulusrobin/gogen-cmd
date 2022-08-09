@@ -2,4 +2,7 @@ package {{.PackageName}}
 
 // UseCase interface of {{.PackageName}} package.
 type UseCase interface {
+    {{with .UsecaseFunctions}}
+    {{.FunctionName}}(ctx context.Context, request {{.FunctionName}}UsecaseRequest) ({{.FunctionName}}UsecaseResponse, error)
+    {{end}}
 }

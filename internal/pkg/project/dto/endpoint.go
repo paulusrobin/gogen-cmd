@@ -8,6 +8,7 @@ type (
 	}
 	GeneratePackage struct {
 		ProjectConfig
-		PackageName string
+		PackageName   string
+		FunctionsName []string
 	}
 )

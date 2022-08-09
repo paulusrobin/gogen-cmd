@@ -21,33 +21,25 @@ func AddEndpoint(parameter dto.AddEndpointParameter) error {
 	packageFileName := convention.FileName(parameter.PackageName)
 	endpointFileName := convention.FileName(parameter.EndpointName)
 
-	generatedFolders := []dto.ProjectPath{
-		{"internal", false},
-		{"internal/pkg", false},
-		{fmt.Sprintf("internal/pkg/%s", packageFileName), true},
-		{fmt.Sprintf("internal/pkg/%s/endpoint", packageFileName), false},
-		{fmt.Sprintf("internal/pkg/%s/payload", packageFileName), false},
+	generatedFolders := []string{
+		"internal",
+		"internal/pkg",
+		fmt.Sprintf("internal/pkg/%s", packageFileName),
+		fmt.Sprintf("internal/pkg/%s/endpoint", packageFileName),
+		fmt.Sprintf("internal/pkg/%s/payload", packageFileName),
 	}
 	generatedFiles := map[string]string{
 		fmt.Sprintf("internal/pkg/%s/payload/%sEndpoint.go", packageFileName, endpointFileName): string(pkgPayloadEndpointTemplate),
 		fmt.Sprintf("internal/pkg/%s/endpoint/%s.go", packageFileName, endpointFileName):        string(pkgEndpointTemplate),
 	}
 
-	for _, folder := range generatedFolders {
-		generatedPath := path.Join(parameter.Path, folder.Path)
+	for _, folderPath := range generatedFolders {
+		generatedPath := path.Join(parameter.Path, folderPath)
 		if directory.Exist(generatedPath) {
 			continue
 		}
 		if err := directory.Make(generatedPath); err != nil {
 			return err
-		}
-		if folder.IsPackage {
-			if err := GeneratePackage(dto.GeneratePackage{
-				ProjectConfig: parameter.ProjectConfig,
-				PackageName:   packageFileName,
-			}); err != nil {
-				return err
-			}
 		}
 	}
 
@@ -56,5 +48,14 @@ func AddEndpoint(parameter dto.AddEndpointParameter) error {
 			return err
 		}
 	}
+
+	// TODO: get list functions name of package's usecase
+	if err := GeneratePackage(dto.GeneratePackage{
+		ProjectConfig: parameter.ProjectConfig,
+		PackageName:   packageFileName,
+	}); err != nil {
+		return err
+	}
+
 	return nil
 }
