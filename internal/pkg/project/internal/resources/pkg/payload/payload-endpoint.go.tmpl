@@ -16,7 +16,7 @@ type (
 
 func Decode{{.EndpointName}}Request(validator validator.Validation) func(c echo.Context) (interface{}, error) {
 	return func(c echo.Context) (interface{}, error) {
-		var request {{.EndpointName}}Request
+		var request {{.EndpointName}}EndpointRequest
 		if err := c.Bind(&request); err != nil {
 			return nil, err
 		}

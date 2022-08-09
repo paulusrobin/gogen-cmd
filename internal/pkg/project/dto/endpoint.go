@@ -6,9 +6,13 @@ type (
 		PackageName  string
 		EndpointName string
 	}
+	GenerateUsecase struct {
+		ProjectConfig
+		PackageName string
+	}
 	GeneratePackage struct {
 		ProjectConfig
-		PackageName   string
-		FunctionsName []string
+		PackageName      string
+		UsecaseFunctions []string
 	}
 )

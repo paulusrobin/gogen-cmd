@@ -67,15 +67,27 @@ func Generate(cfg dto.ProjectConfig) error {
 
 // GeneratePackage function to generate new internal pkg folder files.
 func GeneratePackage(parameters dto.GeneratePackage) error {
-	if err := file.Generate(
-		path.Join(parameters.Path, "internal/pkg", parameters.PackageName, "usecase.go"),
-		string(pkgUsecaseTemplate),
+	fileOutput := path.Join(parameters.Path, "internal/pkg", parameters.PackageName, "usecase.go")
+
+	_ = file.Remove(fileOutput)
+	if err := file.Generate(fileOutput, string(pkgUsecaseTemplate),
 		map[string]interface{}{
-			"ProjectName":   parameters.Name,
-			"ProjectModule": parameters.Module,
-			"PackageName":   parameters.PackageName,
+			"ProjectName":      parameters.Name,
+			"ProjectModule":    parameters.Module,
+			"PackageName":      parameters.PackageName,
+			"UsecaseFunctions": parameters.UsecaseFunctions,
 		}); err != nil {
 		return err
 	}
 	return nil
+}
+
+// GenerateUsecase function to generate new internal pkg usecase folder files.
+func GenerateUsecase(parameters dto.GenerateUsecase) error {
+	fileOutput := path.Join(parameters.Path, "internal/pkg", parameters.PackageName, "usecase/root.go")
+	return file.Generate(fileOutput, string(pkgUsecaseRootTemplate), map[string]interface{}{
+		"ProjectName":   parameters.Name,
+		"ProjectModule": parameters.Module,
+		"PackageName":   parameters.PackageName,
+	})
 }
