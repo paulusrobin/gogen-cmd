@@ -1,0 +1,13 @@
+package payload
+
+import (
+	"github.com/paulusrobin/gogen-golib/mandatory"
+)
+
+type (
+	{{.EndpointName}}EndpointRequest struct {
+		Mandatory  mandatory.Request
+	}
+	{{.EndpointName}}EndpointResponse struct {
+	}
+)

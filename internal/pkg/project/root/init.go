@@ -2,12 +2,12 @@ package root
 
 import (
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/file"
-	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/dto"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/parameter"
 	"path"
 )
 
-// Generate function to generate root folder files.
-func Generate(cfg dto.ProjectConfig) error {
+// Init function to generate root folder files.
+func Init(cfg parameter.ProjectConfig) error {
 	parameters := map[string]interface{}{
 		"ProjectName":   cfg.Name,
 		"ProjectModule": cfg.Module,

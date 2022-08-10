@@ -19,7 +19,7 @@ import (
     "{{.ProjectModule}}/internal/config"
 	"{{.ProjectModule}}/internal/pkg/greeting"
 	greetingEndpoint "{{.ProjectModule}}/internal/pkg/greeting/endpoint"
-	greetingPayload "{{.ProjectModule}}/internal/pkg/greeting/payload"
+	greetingEncoding "{{.ProjectModule}}/internal/pkg/greeting/encoding"
 	greetingUseCase "{{.ProjectModule}}/internal/pkg/greeting/usecase"
 	transportHttp "{{.ProjectModule}}/internal/server/transport/http"
 )
@@ -93,7 +93,7 @@ func (s *httpServer) middlewares() []echo.MiddlewareFunc {
 func (s *httpServer) routes() {
     s.ec.GET("", transportHttp.MakeHandler(
         s.greeting.greetingEndpoint,
-        goKitEcho.WithDecoder(greetingPayload.DecodeGreetingRequest(s.validation)),
+        goKitEcho.WithDecoder(greetingEncoding.DecodeGreetingRequest(s.validation)),
     ))
 }
 

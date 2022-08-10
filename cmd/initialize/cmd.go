@@ -3,8 +3,8 @@ package initialize
 import (
 	"fmt"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/directory"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/parameter"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project"
-	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/dto"
 	"github.com/spf13/cobra"
 	"log"
 	"path"
@@ -35,7 +35,7 @@ func runner(cmd *cobra.Command, args []string) error {
 		}
 	}
 
-	if err := project.Generate(dto.ProjectConfig{
+	if err := project.Init(parameter.ProjectConfig{
 		Path:   basePath,
 		Name:   projectName,
 		Module: projectModule,

@@ -1,0 +1,14 @@
+package payload
+
+import (
+	validator "github.com/paulusrobin/gogen-golib/validator/interface"
+)
+
+type (
+	GreetingRequest struct {
+		Name string `query:"name"`
+	}
+	GreetingResponse struct {
+		Message string `json:"message"`
+	}
+)

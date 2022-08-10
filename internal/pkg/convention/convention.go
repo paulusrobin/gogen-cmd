@@ -7,11 +7,19 @@ func PackageName(name string) string {
 }
 
 func EndpointName(name string) string {
-	return strings.ToUpper(string(name[0])) + name[1:]
+	return toUpperFirstLetter(name)
+}
+
+func EndpointNameFromFile(name string) string {
+	return strings.Split(EndpointName(name), ".")[0]
 }
 
 func FunctionName(name string) string {
-	return strings.Split(strings.ToUpper(string(name[0]))+name[1:], ".")[0]
+	return toUpperFirstLetter(name)
+}
+
+func FunctionNameFromFile(name string) string {
+	return strings.Split(FunctionName(name), ".")[0]
 }
 
 func FileName(name string) string {

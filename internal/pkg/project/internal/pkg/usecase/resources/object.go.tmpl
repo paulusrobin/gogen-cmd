@@ -1,0 +1,12 @@
+package usecase
+
+import (
+	"{{.ProjectModule}}/internal/pkg/{{.PackageName}}"
+)
+
+type useCase struct{}
+
+// NewUseCase function to initialize user use case.
+func NewUseCase() {{.PackageName}}.UseCase {
+	return useCase{}
+}

@@ -2,8 +2,8 @@ package add
 
 import (
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/directory"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/parameter"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project"
-	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/dto"
 	"github.com/spf13/cobra"
 	"log"
 )
@@ -24,8 +24,8 @@ func runner(cmd *cobra.Command, args []string) error {
 	log.Printf("adding a usecase")
 
 	var basePath = directory.Pwd()
-	if err := project.AddUsecase(dto.AddUsecaseParameter{
-		ProjectConfig: dto.ProjectConfig{
+	if err := project.AddUsecase(parameter.AddUsecase{
+		ProjectConfig: parameter.ProjectConfig{
 			Path:   basePath,
 			Name:   projectName,
 			Module: projectModule,

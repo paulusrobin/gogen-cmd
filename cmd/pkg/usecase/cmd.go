@@ -9,7 +9,7 @@ import (
 // Cmd expose command runner
 func Cmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "pkg-usecase",
+		Use:   "usecase",
 		Short: "generate gogen project internal package usecase",
 	}
 	cmd.AddCommand(add.Cmd(), remove.Cmd())

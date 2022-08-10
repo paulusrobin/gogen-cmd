@@ -9,7 +9,7 @@ import (
 // Cmd expose command runner
 func Cmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "pkg-endpoint",
+		Use:   "endpoint",
 		Short: "generate gogen project internal package endpoint",
 	}
 	cmd.AddCommand(add.Cmd(), remove.Cmd())

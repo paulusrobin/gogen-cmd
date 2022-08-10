@@ -1,7 +1,7 @@
-package dto
+package parameter
 
 type (
-	AddUsecaseParameter struct {
+	AddUsecase struct {
 		ProjectConfig
 		PackageName  string
 		FunctionName string
