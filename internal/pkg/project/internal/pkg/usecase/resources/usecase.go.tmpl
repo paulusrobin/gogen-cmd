@@ -2,12 +2,11 @@ package {{.PackageName}}
 
 import (
 	"context"
-	"{{.ProjectModule}}/internal/pkg/{{.PackageName}}/payload"
+	"{{.ProjectModule}}/internal/pkg/{{.PackageName}}/dto"
 )
 
 // UseCase interface of {{.PackageName}} package.
 type UseCase interface {
-    {{range $functionName := .UsecaseFunctions}}
-    {{$functionName}}(ctx context.Context, request payload.{{$functionName}}UsecaseRequest) (payload.{{$functionName}}UsecaseResponse, error)
+    {{range $functionName := .UsecaseFunctions}}{{$functionName}}(ctx context.Context, request dto.{{$functionName}}UsecaseRequest) (dto.{{$functionName}}UsecaseResponse, error)
     {{end}}
 }

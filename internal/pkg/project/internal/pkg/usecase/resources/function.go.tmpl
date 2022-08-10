@@ -2,11 +2,11 @@ package usecase
 
 import (
 	"context"
-	"{{.ProjectModule}}/internal/pkg/{{.PackageName}}/payload"
+	"{{.ProjectModule}}/internal/pkg/{{.PackageName}}/dto"
 )
 
 // {{.FunctionName}} function to implement use case.
-func (u useCase) {{.FunctionName}}(ctx context.Context, request payload.{{.FunctionName}}UsecaseRequest) (payload.{{.FunctionName}}UsecaseResponse, error) {
+func (u useCase) {{.FunctionName}}(ctx context.Context, request dto.{{.FunctionName}}UsecaseRequest) (dto.{{.FunctionName}}UsecaseResponse, error) {
 	// TODO: implement me
 	panic("implement me")
 }

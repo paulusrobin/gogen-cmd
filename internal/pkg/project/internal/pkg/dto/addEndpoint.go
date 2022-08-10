@@ -28,7 +28,7 @@ func AddEndpoint(request parameter.AddEndpoint) error {
 		fmt.Sprintf("internal/pkg/%s/dto", packageFileName),
 	}
 	generatedFiles := map[string]string{
-		fmt.Sprintf("internal/pkg/%s/dto/%sEndpoint.go", packageFileName, endpointFileName): string(usecaseTemplate),
+		fmt.Sprintf("internal/pkg/%s/dto/%sEndpoint.go", packageFileName, endpointFileName): string(endpointTemplate),
 	}
 
 	for _, folderPath := range generatedFolders {

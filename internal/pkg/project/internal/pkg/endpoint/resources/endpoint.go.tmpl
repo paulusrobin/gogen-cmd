@@ -7,7 +7,7 @@ import (
 	validator "github.com/paulusrobin/gogen-golib/validator/interface"
 	"{{.ProjectModule}}/internal/config"
 	"{{.ProjectModule}}/internal/pkg/{{.PackageName}}"
-	"{{.ProjectModule}}/internal/pkg/{{.PackageName}}/payload"
+	"{{.ProjectModule}}/internal/pkg/{{.PackageName}}/dto"
 )
 
 // {{.EndpointName}}Param parameter.
@@ -20,6 +20,11 @@ type {{.EndpointName}}Param struct {
 // {{.EndpointName}}Endpoint endpoint.
 func {{.EndpointName}}Endpoint(param {{.EndpointName}}Param) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
+	    payload, ok := request.(dto.{{.EndpointName}}EndpointRequest)
+	    if !ok {
+	        return nil, fmt.Errorf("invalid request")
+	    }
+
 		// TODO: implement endpoint function
 		panic("implement me")
 	}

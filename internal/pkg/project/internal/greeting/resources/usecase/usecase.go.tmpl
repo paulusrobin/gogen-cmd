@@ -2,10 +2,10 @@ package greeting
 
 import (
 	"context"
-	"{{.ProjectModule}}/internal/pkg/greeting/payload"
+	"{{.ProjectModule}}/internal/pkg/greeting/dto"
 )
 
 // UseCase interface of greeting package.
 type UseCase interface {
-	Greet(ctx context.Context, request payload.GreetingRequest) (payload.GreetingResponse, error)
+	Greet(ctx context.Context, request dto.GreetingRequest) (dto.GreetingResponse, error)
 }

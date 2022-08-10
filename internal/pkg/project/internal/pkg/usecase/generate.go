@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"fmt"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/convention"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/directory"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/file"
@@ -57,6 +58,25 @@ func generateRoot(parameters parameter.ProjectConfigWithPackage) error {
 
 // Generate function.
 func Generate(request parameter.ProjectConfigWithPackage) error {
+	packageFileName := convention.FileName(request.PackageName)
+
+	generatedFolders := []string{
+		"internal",
+		"internal/pkg",
+		fmt.Sprintf("internal/pkg/%s", packageFileName),
+		fmt.Sprintf("internal/pkg/%s/usecase", packageFileName),
+	}
+
+	for _, folderPath := range generatedFolders {
+		generatedPath := path.Join(request.Path, folderPath)
+		if directory.Exist(generatedPath) {
+			continue
+		}
+		if err := directory.Make(generatedPath); err != nil {
+			return err
+		}
+	}
+
 	return functions.Walk([]functions.Func{
 		functions.MakeFunc(generateObject(request)),
 		functions.MakeFunc(generateRoot(request)),

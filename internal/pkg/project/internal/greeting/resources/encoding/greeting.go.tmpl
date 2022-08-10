@@ -1,8 +1,9 @@
-package payload
+package encoding
 
 import (
     "github.com/labstack/echo/v4"
     "{{.ProjectModule}}/internal/pkg/greeting/dto"
+    validator "github.com/paulusrobin/gogen-golib/validator/interface"
 )
 
 func DecodeGreetingRequest(validator validator.Validation) func(c echo.Context) (interface{}, error) {
