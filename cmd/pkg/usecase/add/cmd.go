@@ -36,7 +36,7 @@ func runner(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	log.Printf("succesfully added a new usecase")
+	log.Printf("succesfully added %s usecase on %s package", functionName, packageName)
 	return nil
 }
 

@@ -9,26 +9,21 @@ import (
 	"path"
 )
 
-// AddUsecase function.
-func AddUsecase(request parameter.AddUsecase) error {
+// Add function.
+func Add(request parameter.AddDataTransferObject) error {
 	parameters := map[string]interface{}{
-		"ProjectName":   request.Name,
-		"ProjectModule": request.Module,
-		"PackageName":   convention.PackageName(request.PackageName),
-		"FunctionName":  convention.FunctionName(request.FunctionName),
+		"Name": request.Name,
+		"Type": request.Type,
 	}
 
 	packageFileName := convention.FileName(request.PackageName)
-	usecaseFileName := convention.FileName(request.FunctionName)
+	payloadFileName := convention.FileName(request.Name)
 
 	generatedFolders := []string{
 		"internal",
 		"internal/pkg",
 		fmt.Sprintf("internal/pkg/%s", packageFileName),
 		fmt.Sprintf("internal/pkg/%s/dto", packageFileName),
-	}
-	generatedFiles := map[string]string{
-		fmt.Sprintf("internal/pkg/%s/dto/%sUsecase.go", packageFileName, usecaseFileName): string(usecaseTemplate),
 	}
 
 	for _, folderPath := range generatedFolders {
@@ -41,10 +36,10 @@ func AddUsecase(request parameter.AddUsecase) error {
 		}
 	}
 
-	for outputFile, content := range generatedFiles {
-		if err := file.Generate(path.Join(request.Path, outputFile), content, parameters); err != nil {
-			return err
-		}
+	generatedFile := fmt.Sprintf("internal/pkg/%s/dto/%s%s.go",
+		packageFileName, payloadFileName, convention.ToUpperFirstLetter(request.Type))
+	if err := file.Generate(path.Join(request.Path, generatedFile), string(dtoTemplate), parameters); err != nil {
+		return err
 	}
 	return nil
 }

@@ -5,9 +5,9 @@ import (
 )
 
 type (
-	{{.EndpointName}}EndpointRequest struct {
+	{{.Name}}{{.Type}}Request struct {
 		Mandatory  mandatory.Request
 	}
-	{{.EndpointName}}EndpointResponse struct {
+	{{.Name}}{{.Type}}Response struct {
 	}
 )

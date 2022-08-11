@@ -7,7 +7,7 @@ func PackageName(name string) string {
 }
 
 func EndpointName(name string) string {
-	return toUpperFirstLetter(name)
+	return ToUpperFirstLetter(name)
 }
 
 func EndpointNameFromFile(name string) string {
@@ -15,7 +15,7 @@ func EndpointNameFromFile(name string) string {
 }
 
 func FunctionName(name string) string {
-	return toUpperFirstLetter(name)
+	return ToUpperFirstLetter(name)
 }
 
 func FunctionNameFromFile(name string) string {

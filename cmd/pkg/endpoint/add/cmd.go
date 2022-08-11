@@ -36,7 +36,7 @@ func runner(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	log.Printf("succesfully added a new endpoint")
+	log.Printf("succesfully added %s endpoint on %s package", endpointName, packageName)
 	return nil
 }
 

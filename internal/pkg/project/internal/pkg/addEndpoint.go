@@ -12,7 +12,14 @@ import (
 // AddEndpoint function.
 func AddEndpoint(request parameter.AddEndpoint) error {
 	return functions.Walk([]functions.Func{
-		functions.MakeFunc(dto.AddEndpoint(request)),
+		functions.MakeFunc(dto.Add(parameter.AddDataTransferObject{
+			ProjectConfigWithPackage: parameter.ProjectConfigWithPackage{
+				ProjectConfig: request.ProjectConfig,
+				PackageName:   request.PackageName,
+			},
+			Name: request.EndpointName,
+			Type: "Endpoint",
+		})),
 		functions.MakeFunc(encoding.Add(request)),
 		functions.MakeFunc(endpoint.Add(request)),
 		functions.MakeFunc(usecase.Generate(parameter.ProjectConfigWithPackage{

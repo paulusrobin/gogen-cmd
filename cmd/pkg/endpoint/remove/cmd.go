@@ -1,7 +1,11 @@
 package remove
 
 import (
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/directory"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/parameter"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/project"
 	"github.com/spf13/cobra"
+	"log"
 )
 
 var (
@@ -17,7 +21,23 @@ func init() {
 }
 
 func runner(cmd *cobra.Command, args []string) error {
-	panic("implement me")
+	log.Printf("removing an endpoint")
+
+	var basePath = directory.Pwd()
+	if err := project.RemoveEndpoint(parameter.RemoveEndpoint{
+		ProjectConfig: parameter.ProjectConfig{
+			Path:   basePath,
+			Name:   projectName,
+			Module: projectModule,
+		},
+		PackageName:  packageName,
+		EndpointName: endpointName,
+	}); err != nil {
+		return err
+	}
+
+	log.Printf("succesfully removed %s endpoint on %s package", endpointName, packageName)
+	return nil
 }
 
 // Cmd expose command runner

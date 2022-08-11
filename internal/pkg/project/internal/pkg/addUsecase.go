@@ -10,7 +10,14 @@ import (
 // AddUsecase function.
 func AddUsecase(request parameter.AddUsecase) error {
 	return functions.Walk([]functions.Func{
-		functions.MakeFunc(dto.AddUsecase(request)),
+		functions.MakeFunc(dto.Add(parameter.AddDataTransferObject{
+			ProjectConfigWithPackage: parameter.ProjectConfigWithPackage{
+				ProjectConfig: request.ProjectConfig,
+				PackageName:   request.PackageName,
+			},
+			Name: request.FunctionName,
+			Type: "Usecase",
+		})),
 		functions.MakeFunc(usecase.Add(request)),
 	})
 }
