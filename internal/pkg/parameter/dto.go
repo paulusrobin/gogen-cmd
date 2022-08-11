@@ -6,4 +6,9 @@ type (
 		Name string
 		Type string
 	}
+	RemoveDataTransferObject struct {
+		ProjectConfigWithPackage
+		Name string
+		Type string
+	}
 )

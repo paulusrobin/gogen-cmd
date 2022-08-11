@@ -23,5 +23,5 @@ func FunctionNameFromFile(name string) string {
 }
 
 func FileName(name string) string {
-	return name
+	return ToLowerFirstLetter(name)
 }

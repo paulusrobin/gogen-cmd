@@ -19,7 +19,7 @@ func Add(request parameter.AddEndpoint) error {
 	}
 
 	packageFileName := convention.FileName(request.PackageName)
-	ecnodingFileName := convention.FileName(request.EndpointName)
+	encodingFileName := convention.FileName(request.EndpointName)
 
 	generatedFolders := []string{
 		"internal",
@@ -28,7 +28,7 @@ func Add(request parameter.AddEndpoint) error {
 		fmt.Sprintf("internal/pkg/%s/encoding", packageFileName),
 	}
 	generatedFiles := map[string]string{
-		fmt.Sprintf("internal/pkg/%s/encoding/%s.go", packageFileName, ecnodingFileName): string(encodingTemplate),
+		fmt.Sprintf("internal/pkg/%s/encoding/%s.go", packageFileName, encodingFileName): string(encodingTemplate),
 	}
 
 	for _, folderPath := range generatedFolders {
