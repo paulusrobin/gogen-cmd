@@ -27,7 +27,7 @@ func IsGolangProject(basePath string) (string, bool) {
 // Name function to get project name from module name.
 func Name(module string) string {
 	modules := strings.Split(module, "/")
-	return modules[len(module)-1]
+	return modules[len(modules)-1]
 }
 
 // ValidateProject function to validate a path is project root of golang project or not.
