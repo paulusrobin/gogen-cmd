@@ -1,7 +1,6 @@
 package initialize
 
 import (
-	"fmt"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/directory"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/parameter"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project"
@@ -25,11 +24,7 @@ func runner(cmd *cobra.Command, args []string) error {
 	log.Printf("start initialiazing project")
 
 	var basePath = directory.Pwd()
-	if inFolder {
-		if !directory.Empty(basePath) {
-			return fmt.Errorf("current folder is not empty")
-		}
-	} else {
+	if !inFolder {
 		basePath = path.Join(basePath, projectName)
 		if err := directory.Make(basePath); err != nil {
 			return err
