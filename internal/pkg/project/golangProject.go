@@ -10,10 +10,18 @@ import (
 // IsGolangProject function to validate a path is project root of golang project or not.
 // return string project module.
 func IsGolangProject(basePath string) (string, bool) {
-	if !file.Exist(path.Join(basePath, "go.mod")) {
+	pathProject := path.Join(basePath, "go.mod")
+	if !file.Exist(pathProject) {
 		return "", false
 	}
-	return "", true
+
+	contents, err := file.Read(pathProject)
+	if err != nil {
+		return "", false
+	}
+
+	lineZero := strings.Split(contents[0], " ")
+	return lineZero[len(lineZero)-1], true
 }
 
 // Name function to get project name from module name.
