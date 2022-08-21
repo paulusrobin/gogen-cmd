@@ -1,6 +1,7 @@
 package add
 
 import (
+	"fmt"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/directory"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/parameter"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project"
@@ -17,7 +18,7 @@ var (
 )
 
 func init() {
-	requiredFlags = []string{"name", "module", "package", "function"}
+	requiredFlags = []string{"package", "function"}
 }
 
 func runner(cmd *cobra.Command, args []string) error {
@@ -50,6 +51,27 @@ func Cmd() *cobra.Command {
 				if err := cmd.MarkFlagRequired(required); err != nil {
 					return err
 				}
+			}
+			var basePath = directory.Pwd()
+			p, m, err := project.ValidateProject(basePath)
+			if err != nil {
+				return err
+			}
+
+			if projectName == "" {
+				projectName = p
+			}
+
+			if projectModule == "" {
+				projectModule = m
+			}
+
+			if projectName == "" {
+				return fmt.Errorf("project name is required")
+			}
+
+			if projectModule == "" {
+				return fmt.Errorf("project name is required")
 			}
 			return nil
 		},

@@ -12,7 +12,7 @@ import (
 // Add function.
 func Add(request parameter.AddDataTransferObject) error {
 	parameters := map[string]interface{}{
-		"Name": request.Name,
+		"Name": convention.FunctionName(request.Name),
 		"Type": request.Type,
 	}
 
