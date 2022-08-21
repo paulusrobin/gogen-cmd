@@ -30,7 +30,8 @@ func runner(cmd *cobra.Command, args []string) error {
 			return fmt.Errorf("current folder is not empty")
 		}
 	} else {
-		if err := directory.Make(path.Join(basePath, projectName)); err != nil {
+		basePath = path.Join(basePath, projectName)
+		if err := directory.Make(basePath); err != nil {
 			return err
 		}
 	}

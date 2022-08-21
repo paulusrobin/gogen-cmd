@@ -33,7 +33,7 @@ func Init(cfg parameter.ProjectConfig) error {
 	}
 
 	for _, folderPath := range generatedFolders {
-		generatedPath := path.Join(cfg.Path, cfg.Name, folderPath)
+		generatedPath := path.Join(cfg.Path, folderPath)
 		if directory.Exist(generatedPath) {
 			continue
 		}
@@ -43,7 +43,7 @@ func Init(cfg parameter.ProjectConfig) error {
 	}
 
 	for outputFile, content := range generatedFiles {
-		if err := file.Generate(path.Join(cfg.Path, cfg.Name, outputFile), content, parameters); err != nil {
+		if err := file.Generate(path.Join(cfg.Path, outputFile), content, parameters); err != nil {
 			return err
 		}
 	}

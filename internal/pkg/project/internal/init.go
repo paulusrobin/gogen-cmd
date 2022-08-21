@@ -21,7 +21,7 @@ func Init(cfg parameter.ProjectConfig) error {
 	}
 
 	for _, folderPath := range generatedFolders {
-		generatedPath := path.Join(cfg.Path, cfg.Name, folderPath)
+		generatedPath := path.Join(cfg.Path, folderPath)
 		if directory.Exist(generatedPath) {
 			continue
 		}

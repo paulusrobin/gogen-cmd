@@ -24,7 +24,7 @@ func Init(cfg parameter.ProjectConfig) error {
 	}
 
 	for outputFile, content := range generatedFiles {
-		if err := file.Generate(path.Join(cfg.Path, cfg.Name, outputFile), content, parameters); err != nil {
+		if err := file.Generate(path.Join(cfg.Path, outputFile), content, parameters); err != nil {
 			return err
 		}
 	}
