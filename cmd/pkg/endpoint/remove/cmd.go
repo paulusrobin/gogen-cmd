@@ -78,8 +78,8 @@ func Cmd() *cobra.Command {
 		},
 		RunE: runner,
 	}
-	cmd.Flags().StringVarP(&projectName, "name", "n", "", "generated project name (required)")
-	cmd.Flags().StringVarP(&projectModule, "module", "m", "", "generated project module (required)")
+	cmd.Flags().StringVarP(&projectName, "name", "n", "", "generated project name")
+	cmd.Flags().StringVarP(&projectModule, "module", "m", "", "generated project module")
 	cmd.Flags().StringVarP(&packageName, "package", "p", "", "generated package name (required)")
 	cmd.Flags().StringVarP(&endpointName, "endpoint", "e", "", "generated endpoint name (required)")
 	return cmd

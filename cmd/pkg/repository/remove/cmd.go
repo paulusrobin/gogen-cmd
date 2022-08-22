@@ -1,4 +1,4 @@
-package add
+package remove
 
 import (
 	"fmt"
@@ -7,45 +7,48 @@ import (
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project"
 	"github.com/spf13/cobra"
 	"log"
+	"path"
 )
 
 var (
-	projectName   string
-	projectModule string
-	packageName   string
-	functionName  string
-	requiredFlags []string
+	projectName    string
+	projectModule  string
+	repositoryName string
+	packageName    string
+	functionName   string
+	requiredFlags  []string
 )
 
 func init() {
-	requiredFlags = []string{"package", "function"}
+	requiredFlags = []string{"repository", "package", "function"}
 }
 
 func runner(cmd *cobra.Command, args []string) error {
-	log.Printf("adding a usecase")
+	log.Printf("removing a repository")
 
 	var basePath = directory.Pwd()
-	if err := project.AddUsecase(parameter.AddUsecase{
+	if err := project.RemoveRepository(parameter.RemoveRepository{
 		ProjectConfig: parameter.ProjectConfig{
 			Path:   basePath,
 			Name:   projectName,
 			Module: projectModule,
 		},
-		PackageName:  packageName,
-		FunctionName: functionName,
+		RepositoryName: repositoryName,
+		PackageName:    packageName,
+		FunctionName:   functionName,
 	}); err != nil {
 		return err
 	}
 
-	log.Printf("succesfully added %s usecase on %s package", functionName, packageName)
+	log.Printf("succesfully removed %s on %s repository package", functionName, path.Join(packageName, repositoryName))
 	return nil
 }
 
 // Cmd expose command runner
 func Cmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "add",
-		Short: "add a usecase on gogen project internal package",
+		Use:   "remove",
+		Short: "remove a repository on gogen project internal package",
 		PreRunE: func(cmd *cobra.Command, args []string) error {
 			for _, required := range requiredFlags {
 				if err := cmd.MarkFlagRequired(required); err != nil {
@@ -79,6 +82,7 @@ func Cmd() *cobra.Command {
 	}
 	cmd.Flags().StringVarP(&projectName, "name", "n", "", "generated project name")
 	cmd.Flags().StringVarP(&projectModule, "module", "m", "", "generated project module")
+	cmd.Flags().StringVarP(&repositoryName, "repository", "r", "", "generated repository name (required)")
 	cmd.Flags().StringVarP(&packageName, "package", "p", "", "generated package name (required)")
 	cmd.Flags().StringVarP(&functionName, "function", "f", "", "generated function name (required)")
 	return cmd

@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/paulusrobin/gogen-cmd/cmd/initialize"
 	"github.com/paulusrobin/gogen-cmd/cmd/pkg/endpoint"
+	"github.com/paulusrobin/gogen-cmd/cmd/pkg/repository"
 	"github.com/paulusrobin/gogen-cmd/cmd/pkg/usecase"
 	"github.com/spf13/cobra"
 )
@@ -17,6 +18,7 @@ func main() {
 		initialize.Cmd(),
 		endpoint.Cmd(),
 		usecase.Cmd(),
+		repository.Cmd(),
 	)
 
 	// execute command
