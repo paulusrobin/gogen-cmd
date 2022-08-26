@@ -1,0 +1,8 @@
+package repository
+
+type (
+    {{with .Repositories}}
+    {{.Name}}Repository interface {
+    }
+    {{end}}
+)

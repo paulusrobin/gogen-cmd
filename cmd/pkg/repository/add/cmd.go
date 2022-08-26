@@ -20,7 +20,7 @@ var (
 )
 
 func init() {
-	requiredFlags = []string{"repository", "package", "function"}
+	requiredFlags = []string{"package", "function"}
 }
 
 func runner(cmd *cobra.Command, args []string) error {
@@ -82,7 +82,7 @@ func Cmd() *cobra.Command {
 	}
 	cmd.Flags().StringVarP(&projectName, "name", "n", "", "generated project name")
 	cmd.Flags().StringVarP(&projectModule, "module", "m", "", "generated project module")
-	cmd.Flags().StringVarP(&repositoryName, "repository", "r", "", "generated repository name (required)")
+	cmd.Flags().StringVarP(&repositoryName, "repository", "r", "", "generated repository name (optional)")
 	cmd.Flags().StringVarP(&packageName, "package", "p", "", "generated package name (required)")
 	cmd.Flags().StringVarP(&functionName, "function", "f", "", "generated function name (required)")
 	return cmd
