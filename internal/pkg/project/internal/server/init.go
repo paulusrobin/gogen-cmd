@@ -1,10 +1,9 @@
 package server
 
 import (
-	"github.com/paulusrobin/gogen-cmd/internal/pkg/directory"
-	"github.com/paulusrobin/gogen-cmd/internal/pkg/file"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/functions"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/generator"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/parameter"
-	"path"
 )
 
 // Init function to initialize config folder.
@@ -32,20 +31,8 @@ func Init(cfg parameter.ProjectConfig) error {
 		"internal/server/subscriber.go":                  string(serverSubscriberTemplate),
 	}
 
-	for _, folderPath := range generatedFolders {
-		generatedPath := path.Join(cfg.Path, folderPath)
-		if directory.Exist(generatedPath) {
-			continue
-		}
-		if err := directory.Make(generatedPath); err != nil {
-			return err
-		}
-	}
-
-	for outputFile, content := range generatedFiles {
-		if err := file.Generate(path.Join(cfg.Path, outputFile), content, parameters); err != nil {
-			return err
-		}
-	}
-	return nil
+	return functions.Walk([]functions.Func{
+		functions.MakeFunc(generator.Folder(cfg.Path, generatedFolders)),
+		functions.MakeFunc(generator.File(cfg.Path, generatedFiles, parameters)),
+	})
 }

@@ -6,6 +6,7 @@ import (
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/directory"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/file"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/functions"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/generator"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/parameter"
 	"path"
 	"strings"
@@ -59,7 +60,6 @@ func generateRoot(parameters parameter.ProjectConfigWithPackage) error {
 // Generate function.
 func Generate(request parameter.ProjectConfigWithPackage) error {
 	packageFileName := convention.FileName(request.PackageName)
-
 	generatedFolders := []string{
 		"internal",
 		"internal/pkg",
@@ -67,17 +67,8 @@ func Generate(request parameter.ProjectConfigWithPackage) error {
 		fmt.Sprintf("internal/pkg/%s/usecase", packageFileName),
 	}
 
-	for _, folderPath := range generatedFolders {
-		generatedPath := path.Join(request.Path, folderPath)
-		if directory.Exist(generatedPath) {
-			continue
-		}
-		if err := directory.Make(generatedPath); err != nil {
-			return err
-		}
-	}
-
 	return functions.Walk([]functions.Func{
+		functions.MakeFunc(generator.Folder(request.Path, generatedFolders)),
 		functions.MakeFunc(generateObject(request)),
 		functions.MakeFunc(generateRoot(request)),
 	})
