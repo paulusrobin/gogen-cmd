@@ -12,7 +12,6 @@ func AddRepository(request parameter.AddRepository) error {
 	return functions.Walk([]functions.Func{
 		functions.MakeFunc(model.Add(parameter.AddModel{
 			ProjectConfig: request.ProjectConfig,
-			PackageName:   request.PackageName,
 			ModelName:     request.ModelName,
 		})),
 		functions.MakeFunc(repository.Add(request)),

@@ -6,6 +6,10 @@ func PackageName(name string) string {
 	return strings.ToLower(name)
 }
 
+func PathName(name string) string {
+	return strings.ToLower(name)
+}
+
 func EndpointName(name string) string {
 	return ToUpperFirstLetter(name)
 }

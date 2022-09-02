@@ -1,0 +1,12 @@
+package {{.PackageName}}
+
+import (
+	"{{.ProjectModule}}/internal/repository"
+)
+
+type repositoryImplementation struct {}
+
+// NewRepository function to initialize repository.
+func NewRepository() repository.{{.RepositoryName}}Repository {
+	return repositoryImplementation{}
+}
