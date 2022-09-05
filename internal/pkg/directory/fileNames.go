@@ -7,10 +7,10 @@ import (
 )
 
 var (
-	fileFilter = func(info fs.FileInfo) bool {
+	fileFilter = func(path string, info fs.FileInfo) bool {
 		return !info.IsDir()
 	}
-	dirFilter = func(info fs.FileInfo) bool {
+	dirFilter = func(path string, info fs.FileInfo) bool {
 		return info.IsDir()
 	}
 )
@@ -26,13 +26,13 @@ func DirNames(directoryPath string) ([]string, error) {
 }
 
 // FileNamesWithFilter function to get list file name with regex filter on directory.
-func FileNamesWithFilter(directoryPath, filter string, fn func(info fs.FileInfo) bool) ([]string, error) {
+func FileNamesWithFilter(directoryPath, filter string, fn func(path string, info fs.FileInfo) bool) ([]string, error) {
 	var fileNames = make([]string, 0)
 	err := filepath.Walk(directoryPath, func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
-		if !fn(info) {
+		if !fn(path, info) {
 			return nil
 		}
 		if matched, err := regexp.Match(filter, []byte(info.Name())); err != nil || !matched {

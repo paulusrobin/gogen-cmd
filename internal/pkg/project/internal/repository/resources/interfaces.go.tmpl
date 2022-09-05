@@ -1,8 +1,8 @@
 package repository
 
 type (
-    {{with .Repositories}}
-    {{.Name}}Repository interface {
+    {{range $repository := .Repositories}}
+    {{$repository.Name}}Repository interface {
     }
     {{end}}
 )

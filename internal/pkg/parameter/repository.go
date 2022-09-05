@@ -21,6 +21,10 @@ type (
 		FunctionName   string
 		ModelName      string
 	}
+
+	RepositoryTemplate struct {
+		Name string
+	}
 )
 
 func (r AddRepository) RepositoryPath() string {
