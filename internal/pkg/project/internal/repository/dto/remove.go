@@ -8,10 +8,12 @@ import (
 )
 
 // Remove function.
-func Remove(request parameter.RemoveDataTransferObject) error {
-	_ = file.Remove(fmt.Sprintf("internal/repository/%s/dto/%s%s.go",
-		convention.FileName(request.PackageName),
-		convention.FileName(request.Name),
-		convention.ToUpperFirstLetter(request.Type)))
+func Remove(request parameter.RemoveRepositoryDataTransferObject) error {
+	name := fmt.Sprintf("%s%s%s",
+		convention.ToLowerFirstLetter(request.PackageName),
+		convention.ToUpperFirstLetter(request.RepositoryName),
+		convention.ToUpperFirstLetter(request.Name),
+	)
+	_ = file.Remove(fmt.Sprintf("internal/repository/model/dto/%s.go", name))
 	return nil
 }

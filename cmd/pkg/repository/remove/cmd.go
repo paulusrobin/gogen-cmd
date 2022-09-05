@@ -16,6 +16,7 @@ var (
 	repositoryName string
 	packageName    string
 	functionName   string
+	withModel      bool
 	requiredFlags  []string
 )
 
@@ -25,6 +26,11 @@ func init() {
 
 func runner(cmd *cobra.Command, args []string) error {
 	log.Printf("removing a repository")
+
+	modelName := ""
+	if withModel {
+		modelName = repositoryName
+	}
 
 	var basePath = directory.Pwd()
 	if err := project.RemoveRepository(parameter.RemoveRepository{
@@ -36,6 +42,7 @@ func runner(cmd *cobra.Command, args []string) error {
 		RepositoryName: repositoryName,
 		PackageName:    packageName,
 		FunctionName:   functionName,
+		ModelName:      modelName,
 	}); err != nil {
 		return err
 	}
@@ -80,10 +87,11 @@ func Cmd() *cobra.Command {
 		},
 		RunE: runner,
 	}
-	cmd.Flags().StringVarP(&projectName, "name", "n", "", "generated project name")
-	cmd.Flags().StringVarP(&projectModule, "module", "m", "", "generated project module")
-	cmd.Flags().StringVarP(&repositoryName, "repository", "r", "", "generated repository name (required)")
-	cmd.Flags().StringVarP(&packageName, "package", "p", "", "generated package name (required)")
-	cmd.Flags().StringVarP(&functionName, "function", "f", "", "generated function name (required)")
+	cmd.Flags().StringVarP(&projectName, "name", "n", "", "removed project name")
+	cmd.Flags().StringVarP(&projectModule, "module", "m", "", "removed project module")
+	cmd.Flags().StringVarP(&repositoryName, "repository", "r", "", "removed repository name (required)")
+	cmd.Flags().StringVarP(&functionName, "function", "f", "", "removed function name (required)")
+	cmd.Flags().StringVarP(&packageName, "package", "p", "", "removed package name (optional)")
+	cmd.Flags().BoolVarP(&withModel, "model", "o", false, "remove model (optional)")
 	return cmd
 }

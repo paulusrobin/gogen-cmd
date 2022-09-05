@@ -15,7 +15,7 @@ func Remove(request parameter.RemoveModel) error {
 		}
 		return fmt.Errorf("model name is required")
 	}
-	_ = file.Remove(fmt.Sprintf("internal/respository/model/%s.go",
-		convention.FileName(request.ModelName)))
+	_ = file.Remove(fmt.Sprintf("internal/respository/model/%s%s.go",
+		convention.FileName(request.RepositoryName), convention.FunctionName(request.ModelName)))
 	return nil
 }

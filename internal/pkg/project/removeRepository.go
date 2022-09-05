@@ -12,17 +12,19 @@ import (
 func RemoveRepository(request parameter.RemoveRepository) error {
 	return functions.Walk([]functions.Func{
 		functions.MakeFunc(model.Remove(parameter.RemoveModel{
-			ProjectConfig: request.ProjectConfig,
-			ModelName:     request.ModelName,
-			SkipIfError:   true,
+			ProjectConfig:  request.ProjectConfig,
+			ModelName:      request.ModelName,
+			RepositoryName: request.RepositoryName,
+			SkipIfError:    true,
 		})),
-		functions.MakeFunc(dto.Remove(parameter.RemoveDataTransferObject{
+		functions.MakeFunc(dto.Remove(parameter.RemoveRepositoryDataTransferObject{
 			ProjectConfigWithPackage: parameter.ProjectConfigWithPackage{
 				ProjectConfig: request.ProjectConfig,
 				PackageName:   request.PackageName,
 			},
-			Name: request.FunctionName,
-			Type: "Repository",
+			RepositoryName: request.RepositoryName,
+			Name:           request.FunctionName,
+			Type:           "Repository",
 		})),
 		functions.MakeFunc(repository.Remove(request)),
 	})

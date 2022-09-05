@@ -18,16 +18,15 @@ func Add(request parameter.AddModel) error {
 	}
 
 	parameters := map[string]interface{}{
-		"ModelName": request.ModelName,
+		"ModelName": convention.FunctionName(request.ModelName),
 	}
-	modelFileName := convention.FileName(request.ModelName)
 	generatedFolders := []string{
 		"internal",
 		"internal/repository",
 		"internal/repository/model",
 	}
 	generatedFiles := map[string]string{
-		fmt.Sprintf("internal/repository/model/%s.go", modelFileName): string(modelTemplate),
+		fmt.Sprintf("internal/repository/model/%s.go", convention.FileName(request.ModelName)): string(modelTemplate),
 	}
 
 	return functions.Walk([]functions.Func{

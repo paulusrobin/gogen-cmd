@@ -6,33 +6,29 @@ import (
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/functions"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/generator"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/parameter"
-	"path"
-	"strings"
 )
 
 // Add function.
-func Add(request parameter.AddDataTransferObject) error {
+func Add(request parameter.AddRepositoryDataTransferObject) error {
+	name := fmt.Sprintf("%s%s%s",
+		convention.ToLowerFirstLetter(request.PackageName),
+		convention.ToUpperFirstLetter(request.RepositoryName),
+		convention.ToUpperFirstLetter(request.Name),
+	)
+
 	parameters := map[string]interface{}{
-		"Name": convention.FunctionName(request.Name),
+		"Name": convention.FunctionName(name),
 		"Type": convention.ToUpperFirstLetter(request.Type),
 	}
-
-	packageFileName := convention.FileName(request.PackageName)
-	payloadFileName := convention.FileName(request.Name)
 
 	generatedFolders := []string{
 		"internal",
 		"internal/repository",
+		"internal/repository/model",
+		"internal/repository/model/dto",
 	}
-	packages := strings.Split(packageFileName, "/")
-	packageName := ""
-	for _, pkg := range packages {
-		packageName = path.Join(packageName, pkg)
-		generatedFolders = append(generatedFolders, fmt.Sprintf("internal/repository/%s", packageName))
-	}
-	generatedFolders = append(generatedFolders, fmt.Sprintf("internal/repository/%s/dto", packageFileName))
 	generatedFiles := map[string]string{
-		fmt.Sprintf("internal/repository/%s/dto/%s%s.go", packageFileName, payloadFileName, convention.ToUpperFirstLetter(request.Type)): string(dtoTemplate),
+		fmt.Sprintf("internal/repository/model/dto/%s.go", name): string(dtoTemplate),
 	}
 
 	return functions.Walk([]functions.Func{

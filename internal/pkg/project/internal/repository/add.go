@@ -27,9 +27,12 @@ func Add(request parameter.AddRepository) error {
 	return functions.Walk([]functions.Func{
 		functions.MakeFunc(generator.Folder(request.Path, generatedFolders)),
 		functions.MakeFunc(generator.File(request.Path, generatedFiles, map[string]interface{}{
-			"PackageName":    convention.PackageName(request.PackageName),
-			"ProjectModule":  request.ProjectConfig.Module,
-			"RepositoryName": convention.ToUpperFirstLetter(request.RepositoryName),
+			"PackageName":   convention.PackageName(request.RepositoryName),
+			"ProjectModule": request.ProjectConfig.Module,
+			"FunctionName":  convention.FunctionName(request.FunctionName),
+			"ParameterName": convention.FunctionName(request.PackageName) +
+				convention.FunctionName(request.RepositoryName) +
+				convention.FunctionName(request.FunctionName),
 		})),
 		functions.MakeFunc(Generate(parameter.ProjectConfigWithRepository{
 			ProjectConfig:  request.ProjectConfig,
