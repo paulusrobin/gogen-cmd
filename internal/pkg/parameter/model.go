@@ -9,6 +9,7 @@ type (
 
 	RemoveModel struct {
 		ProjectConfig
-		ModelName string
+		ModelName   string
+		SkipIfError bool
 	}
 )

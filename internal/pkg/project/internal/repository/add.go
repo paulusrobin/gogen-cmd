@@ -16,18 +16,10 @@ func Add(request parameter.AddRepository) error {
 			"internal/repository",
 		}
 		generatedFiles = make(map[string]string)
-		repositoryPath string
+		repositoryPath = request.RepositoryPath()
 	)
 
-	if request.PackageName != "" {
-		packagePath := fmt.Sprintf("internal/repository/%s", convention.PackageName(request.PackageName))
-		repositoryPath = fmt.Sprintf("%s/%s", packagePath, convention.PackageName(request.RepositoryName))
-		generatedFolders = append(generatedFolders, packagePath, repositoryPath)
-	} else {
-		repositoryPath = fmt.Sprintf("internal/repository/%s", convention.PackageName(request.RepositoryName))
-		generatedFolders = append(generatedFolders, repositoryPath)
-	}
-
+	generatedFolders = append(generatedFolders, request.GeneratedFolders()...)
 	generatedFiles = map[string]string{
 		fmt.Sprintf("%s/%s.go", repositoryPath, convention.FileName(request.FunctionName)): string(repositoryFunctionTemplate),
 	}
