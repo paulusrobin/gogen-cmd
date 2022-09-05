@@ -45,16 +45,12 @@ func generateRoot(parameters parameter.ProjectConfigWithPackage) error {
 	}
 
 	_ = file.Remove(fileOutput)
-	if err = file.Generate(fileOutput, string(usecaseRootTemplate),
-		map[string]interface{}{
-			"ProjectName":      parameters.Name,
-			"ProjectModule":    parameters.Module,
-			"PackageName":      parameters.PackageName,
-			"UsecaseFunctions": usecaseFunctions,
-		}); err != nil {
-		return err
-	}
-	return nil
+	return file.Generate(fileOutput, string(usecaseRootTemplate), map[string]interface{}{
+		"ProjectName":      parameters.Name,
+		"ProjectModule":    parameters.Module,
+		"PackageName":      parameters.PackageName,
+		"UsecaseFunctions": usecaseFunctions,
+	})
 }
 
 // Generate function.

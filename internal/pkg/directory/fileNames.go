@@ -6,13 +6,23 @@ import (
 	"regexp"
 )
 
-var defaultFilter = func(info fs.FileInfo) bool {
-	return !info.IsDir()
-}
+var (
+	fileFilter = func(info fs.FileInfo) bool {
+		return !info.IsDir()
+	}
+	dirFilter = func(info fs.FileInfo) bool {
+		return info.IsDir()
+	}
+)
 
 // FileNames function to get list file name on directory.
 func FileNames(directoryPath string) ([]string, error) {
-	return FileNamesWithFilter(directoryPath, "^*.*", defaultFilter)
+	return FileNamesWithFilter(directoryPath, "^*.*", fileFilter)
+}
+
+// DirNames function to get list file directory.
+func DirNames(directoryPath string) ([]string, error) {
+	return FileNamesWithFilter(directoryPath, "^*.*", dirFilter)
 }
 
 // FileNamesWithFilter function to get list file name with regex filter on directory.

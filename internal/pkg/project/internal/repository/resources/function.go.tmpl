@@ -1,0 +1,12 @@
+package {{.RepositoryPackage}}
+
+import (
+	"context"
+	"{{.ProjectModule}}/internal/repository/dto"
+)
+
+// {{.FunctionName}} function to implement repository.
+func (r repositoryImplementation) {{.FunctionName}}(ctx context.Context, request dto.{{.FunctionName}}RepositoryRequest) (dto.{{.FunctionName}}RepositoryResponse, error) {
+	// TODO: implement me
+	panic("implement me")
+}

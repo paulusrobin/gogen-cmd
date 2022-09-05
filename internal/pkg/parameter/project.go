@@ -10,4 +10,10 @@ type (
 		ProjectConfig
 		PackageName string
 	}
+	ProjectConfigWithRepository struct {
+		ProjectConfig
+		RepositoryPath string
+		PackageName    string
+		RepositoryName string
+	}
 )
