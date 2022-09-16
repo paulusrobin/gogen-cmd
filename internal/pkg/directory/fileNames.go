@@ -15,14 +15,16 @@ var (
 	}
 )
 
+const AllFilter = "^*.*"
+
 // FileNames function to get list file name on directory.
 func FileNames(directoryPath string) ([]string, error) {
-	return FileNamesWithFilter(directoryPath, "^*.*", fileFilter)
+	return FileNamesWithFilter(directoryPath, AllFilter, fileFilter)
 }
 
 // DirNames function to get list file directory.
 func DirNames(directoryPath string) ([]string, error) {
-	return FileNamesWithFilter(directoryPath, "^*.*", dirFilter)
+	return FileNamesWithFilter(directoryPath, AllFilter, dirFilter)
 }
 
 // FileNamesWithFilter function to get list file name with regex filter on directory.

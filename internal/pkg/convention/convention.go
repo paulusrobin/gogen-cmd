@@ -22,6 +22,14 @@ func FunctionNameFromFile(name string) string {
 	return strings.Split(FunctionName(name), ".")[0]
 }
 
+func FunctionsNameFromFile(names []string) []string {
+	var response = make([]string, 0)
+	for _, name := range names {
+		response = append(response, FunctionNameFromFile(name))
+	}
+	return response
+}
+
 func FileName(name string) string {
 	return ToLowerFirstLetter(name)
 }

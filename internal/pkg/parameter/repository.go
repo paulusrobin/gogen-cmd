@@ -23,7 +23,8 @@ type (
 	}
 
 	RepositoryTemplate struct {
-		Name string
+		Name      string
+		Functions []string
 	}
 )
 

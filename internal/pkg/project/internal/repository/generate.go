@@ -10,6 +10,7 @@ import (
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/parameter"
 	"io/fs"
 	"path"
+	"strings"
 )
 
 func generateObject(request parameter.ProjectConfigWithRepository) error {
@@ -30,9 +31,20 @@ func generateRoot(request parameter.ProjectConfigWithRepository) error {
 	packagePath := path.Join(request.Path, "internal/repository")
 	fileOutput := path.Join(packagePath, "repositories.go")
 
-	repositories, err := directory.FileNamesWithFilter(packagePath, "^*.*", func(infoPath string, info fs.FileInfo) bool {
+	var repositoriesFunctions = make(map[string][]string)
+	repositories, err := directory.FileNamesWithFilter(packagePath, directory.AllFilter, func(infoPath string, info fs.FileInfo) bool {
 		if info.IsDir() && file.Exist(path.Join(infoPath, "root.go")) {
 			fmt.Println(infoPath + ": " + info.Name())
+			functionNames, err := directory.FileNamesWithFilter(infoPath, directory.AllFilter, func(_ string, fileInfo fs.FileInfo) bool {
+				if fileInfo.IsDir() || strings.ToLower(fileInfo.Name()) == "root.go" {
+					return false
+				}
+				return true
+			})
+			if err != nil {
+				return false
+			}
+			repositoriesFunctions[info.Name()] = convention.FunctionsNameFromFile(functionNames)
 			return true
 		}
 		return false
@@ -44,7 +56,8 @@ func generateRoot(request parameter.ProjectConfigWithRepository) error {
 	parameters := make([]parameter.RepositoryTemplate, 0)
 	for _, repository := range repositories {
 		parameters = append(parameters, parameter.RepositoryTemplate{
-			Name: convention.FunctionName(repository),
+			Name:      convention.FunctionName(repository),
+			Functions: repositoriesFunctions[repository],
 		})
 	}
 
