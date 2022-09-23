@@ -10,7 +10,7 @@ import (
 
 // AddUsecase function to add an usecase.
 func AddUsecase(request parameter.AddUsecase) error {
-	return functions.Walk([]functions.Func{
+	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(dto.Add(parameter.AddDataTransferObject{
 			ProjectConfigWithPackage: parameter.ProjectConfigWithPackage{
 				ProjectConfig: request.ProjectConfig,

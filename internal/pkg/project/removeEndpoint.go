@@ -11,7 +11,7 @@ import (
 
 // RemoveEndpoint function to remove an endpoint.
 func RemoveEndpoint(request parameter.RemoveEndpoint) error {
-	return functions.Walk([]functions.Func{
+	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(dto.Remove(parameter.RemoveDataTransferObject{
 			ProjectConfigWithPackage: parameter.ProjectConfigWithPackage{
 				ProjectConfig: request.ProjectConfig,

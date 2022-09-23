@@ -83,7 +83,7 @@ func Generate(request parameter.ProjectConfigWithRepository) error {
 		"internal/repository",
 	}
 
-	return functions.Walk([]functions.Func{
+	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(generator.Folder(request.Path, generatedFolders)),
 		functions.MakeFunc(generateObject(request)),
 		functions.MakeFunc(generateRoot(request)),

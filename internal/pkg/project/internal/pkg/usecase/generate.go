@@ -63,7 +63,7 @@ func Generate(request parameter.ProjectConfigWithPackage) error {
 		fmt.Sprintf("internal/pkg/%s/usecase", packageFileName),
 	}
 
-	return functions.Walk([]functions.Func{
+	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(generator.Folder(request.Path, generatedFolders)),
 		functions.MakeFunc(generateObject(request)),
 		functions.MakeFunc(generateRoot(request)),

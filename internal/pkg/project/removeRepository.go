@@ -11,7 +11,7 @@ import (
 
 // RemoveRepository function to remove a repository.
 func RemoveRepository(request parameter.RemoveRepository) error {
-	return functions.Walk([]functions.Func{
+	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(model.Remove(parameter.RemoveModel{
 			ProjectConfig:  request.ProjectConfig,
 			ModelName:      request.ModelName,

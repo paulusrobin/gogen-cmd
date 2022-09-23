@@ -29,7 +29,7 @@ func Add(request parameter.AddModel) error {
 		fmt.Sprintf("internal/repository/model/%s.go", convention.FileName(request.ModelName)): string(modelTemplate),
 	}
 
-	return functions.Walk([]functions.Func{
+	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(generator.Folder(request.Path, generatedFolders)),
 		functions.MakeFunc(generator.File(request.Path, generatedFiles, parameters)),
 	})

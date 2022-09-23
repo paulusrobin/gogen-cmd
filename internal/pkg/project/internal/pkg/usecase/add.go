@@ -30,7 +30,7 @@ func Add(request parameter.AddUsecase) error {
 		fmt.Sprintf("internal/pkg/%s/usecase/%s.go", packageFileName, usecaseFileName): string(usecaseFunctionTemplate),
 	}
 
-	return functions.Walk([]functions.Func{
+	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(generator.Folder(request.Path, generatedFolders)),
 		functions.MakeFunc(generator.File(request.Path, generatedFiles, parameters)),
 		functions.MakeFunc(Generate(parameter.ProjectConfigWithPackage{

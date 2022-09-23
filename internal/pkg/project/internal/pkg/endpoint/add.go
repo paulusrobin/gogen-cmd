@@ -30,7 +30,7 @@ func Add(request parameter.AddEndpoint) error {
 		fmt.Sprintf("internal/pkg/%s/endpoint/%s.go", packageFileName, endpointFileName): string(endpointTemplate),
 	}
 
-	return functions.Walk([]functions.Func{
+	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(generator.Folder(request.Path, generatedFolders)),
 		functions.MakeFunc(generator.File(request.Path, generatedFiles, parameters)),
 	})

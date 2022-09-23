@@ -24,7 +24,7 @@ func Add(request parameter.AddRepository) error {
 		fmt.Sprintf("%s/%s.go", repositoryPath, convention.FileName(request.FunctionName)): string(repositoryFunctionTemplate),
 	}
 
-	return functions.Walk([]functions.Func{
+	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(generator.Folder(request.Path, generatedFolders)),
 		functions.MakeFunc(generator.File(request.Path, generatedFiles, map[string]interface{}{
 			"PackageName":   convention.PackageName(request.RepositoryName),

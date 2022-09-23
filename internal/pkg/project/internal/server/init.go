@@ -31,7 +31,7 @@ func Init(cfg parameter.ProjectConfig) error {
 		"internal/server/subscriber.go":                  string(serverSubscriberTemplate),
 	}
 
-	return functions.Walk([]functions.Func{
+	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(generator.Folder(cfg.Path, generatedFolders)),
 		functions.MakeFunc(generator.File(cfg.Path, generatedFiles, parameters)),
 	})

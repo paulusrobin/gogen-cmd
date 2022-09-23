@@ -10,7 +10,7 @@ import (
 
 // RemoveUsecase function to remove an endpoint.
 func RemoveUsecase(request parameter.RemoveUsecase) error {
-	return functions.Walk([]functions.Func{
+	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(dto.Remove(parameter.RemoveDataTransferObject{
 			ProjectConfigWithPackage: parameter.ProjectConfigWithPackage{
 				ProjectConfig: request.ProjectConfig,

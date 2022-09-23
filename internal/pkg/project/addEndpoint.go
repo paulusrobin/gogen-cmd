@@ -12,7 +12,7 @@ import (
 
 // AddEndpoint function to add an endpoint.
 func AddEndpoint(request parameter.AddEndpoint) error {
-	return functions.Walk([]functions.Func{
+	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(dto.Add(parameter.AddDataTransferObject{
 			ProjectConfigWithPackage: parameter.ProjectConfigWithPackage{
 				ProjectConfig: request.ProjectConfig,

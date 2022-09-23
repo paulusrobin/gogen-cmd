@@ -10,7 +10,7 @@ import (
 
 // Init function to initialize project folder files.
 func Init(cfg parameter.ProjectConfig) error {
-	return functions.Walk([]functions.Func{
+	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(root.Init(cfg)),
 		functions.MakeFunc(cmd.Init(cfg)),
 		functions.MakeFunc(internal.Init(cfg)),

@@ -28,7 +28,7 @@ func Add(request parameter.AddDataTransferObject) error {
 		fmt.Sprintf("internal/pkg/%s/dto/%s%s.go", packageFileName, payloadFileName, convention.ToUpperFirstLetter(request.Type)): string(dtoTemplate),
 	}
 
-	return functions.Walk([]functions.Func{
+	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(generator.Folder(request.Path, generatedFolders)),
 		functions.MakeFunc(generator.File(request.Path, generatedFiles, parameters)),
 	})

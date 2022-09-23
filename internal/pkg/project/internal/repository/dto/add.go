@@ -30,7 +30,7 @@ func Add(request parameter.AddRepositoryDataTransferObject) error {
 		fmt.Sprintf("internal/repository/model/dto/%s.go", name): string(dtoTemplate),
 	}
 
-	return functions.Walk([]functions.Func{
+	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(generator.Folder(request.Path, generatedFolders)),
 		functions.MakeFunc(generator.File(request.Path, generatedFiles, parameters)),
 	})

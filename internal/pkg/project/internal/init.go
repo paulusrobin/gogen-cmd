@@ -19,7 +19,7 @@ func Init(cfg parameter.ProjectConfig) error {
 		"internal/server",
 	}
 
-	return functions.Walk([]functions.Func{
+	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(generator.Folder(cfg.Path, generatedFolders)),
 		functions.MakeFunc(config.Init(cfg)),
 		functions.MakeFunc(greeting.Init(cfg)),

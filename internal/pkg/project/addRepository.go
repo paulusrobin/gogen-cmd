@@ -11,7 +11,7 @@ import (
 
 // AddRepository function to add a repository.
 func AddRepository(request parameter.AddRepository) error {
-	return functions.Walk([]functions.Func{
+	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(model.Add(parameter.AddModel{
 			ProjectConfig:  request.ProjectConfig,
 			RepositoryName: request.RepositoryName,
