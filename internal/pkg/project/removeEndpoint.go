@@ -6,6 +6,7 @@ import (
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/internal/pkg/dto"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/internal/pkg/encoding"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/internal/pkg/endpoint"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/root"
 )
 
 // RemoveEndpoint function to remove an endpoint.
@@ -21,5 +22,6 @@ func RemoveEndpoint(request parameter.RemoveEndpoint) error {
 		})),
 		functions.MakeFunc(encoding.Remove(request)),
 		functions.MakeFunc(endpoint.Remove(request)),
+		functions.MakeFunc(root.Tidy()),
 	})
 }

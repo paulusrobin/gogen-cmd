@@ -24,7 +24,12 @@ type (
 
 	RepositoryTemplate struct {
 		Name      string
-		Functions []string
+		Functions []RepositoryFunctionTemplate
+	}
+
+	RepositoryFunctionTemplate struct {
+		Name    string
+		Package string
 	}
 )
 

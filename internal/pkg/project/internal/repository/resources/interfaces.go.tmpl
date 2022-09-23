@@ -1,10 +1,15 @@
 package repository
 
+import (
+	"context"
+	dtoRepository "{{.ProjectModule}}/internal/repository/model/dto"
+)
+
 type (
     {{range $repository := .Repositories}}
     {{$repository.Name}}Repository interface {
     {{range $function := $repository.Functions}}
-    {{$function}}(ctx context.Context, request repositoryDTO.{{$function}}RepositoryRequest) (repositoryDTO.{{$function}}RepositoryResponse, error)
+    {{$function.Name}}(ctx context.Context, request dtoRepository.{{$function.Package}}{{$function.Name}}RepositoryRequest) (dtoRepository.{{$function.Package}}{{$function.Name}}RepositoryResponse, error)
     {{end}}
     }
     {{end}}

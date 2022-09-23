@@ -6,6 +6,7 @@ import (
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/internal/repository"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/internal/repository/dto"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/internal/repository/model"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/root"
 )
 
 // RemoveRepository function to remove a repository.
@@ -27,5 +28,6 @@ func RemoveRepository(request parameter.RemoveRepository) error {
 			Type:           "Repository",
 		})),
 		functions.MakeFunc(repository.Remove(request)),
+		functions.MakeFunc(root.Tidy()),
 	})
 }

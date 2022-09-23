@@ -30,8 +30,7 @@ func Add(request parameter.AddRepository) error {
 			"PackageName":   convention.PackageName(request.RepositoryName),
 			"ProjectModule": request.ProjectConfig.Module,
 			"FunctionName":  convention.FunctionName(request.FunctionName),
-			"ParameterName": convention.FunctionName(request.PackageName) +
-				convention.FunctionName(request.RepositoryName) +
+			"ParameterName": convention.FunctionName(request.RepositoryName) +
 				convention.FunctionName(request.FunctionName),
 		})),
 		functions.MakeFunc(Generate(parameter.ProjectConfigWithRepository{

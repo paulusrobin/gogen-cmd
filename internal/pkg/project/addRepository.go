@@ -6,6 +6,7 @@ import (
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/internal/repository"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/internal/repository/dto"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/internal/repository/model"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/root"
 )
 
 // AddRepository function to add a repository.
@@ -27,5 +28,6 @@ func AddRepository(request parameter.AddRepository) error {
 			Type:           "Repository",
 		})),
 		functions.MakeFunc(repository.Add(request)),
+		functions.MakeFunc(root.Tidy()),
 	})
 }

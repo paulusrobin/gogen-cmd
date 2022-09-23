@@ -7,6 +7,7 @@ import (
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/internal/pkg/encoding"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/internal/pkg/endpoint"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/internal/pkg/usecase"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/root"
 )
 
 // AddEndpoint function to add an endpoint.
@@ -26,5 +27,6 @@ func AddEndpoint(request parameter.AddEndpoint) error {
 			ProjectConfig: request.ProjectConfig,
 			PackageName:   request.PackageName,
 		})),
+		functions.MakeFunc(root.Tidy()),
 	})
 }

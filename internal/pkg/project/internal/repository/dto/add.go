@@ -10,8 +10,7 @@ import (
 
 // Add function.
 func Add(request parameter.AddRepositoryDataTransferObject) error {
-	name := fmt.Sprintf("%s%s%s",
-		convention.ToLowerFirstLetter(request.PackageName),
+	name := fmt.Sprintf("%s%s",
 		convention.ToUpperFirstLetter(request.RepositoryName),
 		convention.ToUpperFirstLetter(request.Name),
 	)

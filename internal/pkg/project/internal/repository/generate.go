@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"fmt"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/convention"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/directory"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/file"
@@ -30,11 +29,20 @@ func generateObject(request parameter.ProjectConfigWithRepository) error {
 func generateRoot(request parameter.ProjectConfigWithRepository) error {
 	packagePath := path.Join(request.Path, "internal/repository")
 	fileOutput := path.Join(packagePath, "repositories.go")
+	fn := func(packageName string, functions []string) []parameter.RepositoryFunctionTemplate {
+		var response = make([]parameter.RepositoryFunctionTemplate, 0)
+		for _, function := range functions {
+			response = append(response, parameter.RepositoryFunctionTemplate{
+				Name:    function,
+				Package: packageName,
+			})
+		}
+		return response
+	}
 
-	var repositoriesFunctions = make(map[string][]string)
+	var repositoriesFunctions = make(map[string][]parameter.RepositoryFunctionTemplate)
 	repositories, err := directory.FileNamesWithFilter(packagePath, directory.AllFilter, func(infoPath string, info fs.FileInfo) bool {
 		if info.IsDir() && file.Exist(path.Join(infoPath, "root.go")) {
-			fmt.Println(infoPath + ": " + info.Name())
 			functionNames, err := directory.FileNamesWithFilter(infoPath, directory.AllFilter, func(_ string, fileInfo fs.FileInfo) bool {
 				if fileInfo.IsDir() || strings.ToLower(fileInfo.Name()) == "root.go" {
 					return false
@@ -44,7 +52,7 @@ func generateRoot(request parameter.ProjectConfigWithRepository) error {
 			if err != nil {
 				return false
 			}
-			repositoriesFunctions[info.Name()] = convention.FunctionsNameFromFile(functionNames)
+			repositoriesFunctions[info.Name()] = fn(convention.ToUpperFirstLetter(info.Name()), convention.FunctionsNameFromFile(functionNames))
 			return true
 		}
 		return false
@@ -62,7 +70,10 @@ func generateRoot(request parameter.ProjectConfigWithRepository) error {
 	}
 
 	_ = file.Remove(fileOutput)
-	return file.Generate(fileOutput, string(interfacesTemplate), map[string]interface{}{"Repositories": parameters})
+	return file.Generate(fileOutput, string(interfacesTemplate), map[string]interface{}{
+		"ProjectModule": request.Module,
+		"Repositories":  parameters,
+	})
 }
 
 // Generate function.

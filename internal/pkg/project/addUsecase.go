@@ -5,6 +5,7 @@ import (
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/parameter"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/internal/pkg/dto"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/internal/pkg/usecase"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/root"
 )
 
 // AddUsecase function to add an usecase.
@@ -19,5 +20,6 @@ func AddUsecase(request parameter.AddUsecase) error {
 			Type: "Usecase",
 		})),
 		functions.MakeFunc(usecase.Add(request)),
+		functions.MakeFunc(root.Tidy()),
 	})
 }

@@ -5,6 +5,7 @@ import (
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/parameter"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/internal/pkg/dto"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/internal/pkg/usecase"
+	"github.com/paulusrobin/gogen-cmd/internal/pkg/project/root"
 )
 
 // RemoveUsecase function to remove an endpoint.
@@ -19,5 +20,6 @@ func RemoveUsecase(request parameter.RemoveUsecase) error {
 			Type: "Usecase",
 		})),
 		functions.MakeFunc(usecase.Remove(request)),
+		functions.MakeFunc(root.Tidy()),
 	})
 }
