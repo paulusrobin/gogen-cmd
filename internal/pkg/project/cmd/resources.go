@@ -14,4 +14,7 @@ var (
 
 	//go:embed resources/main.go.tmpl
 	mainTemplate []byte
+
+	//go:embed resources/server.go.tmpl
+	serverTemplate []byte
 )

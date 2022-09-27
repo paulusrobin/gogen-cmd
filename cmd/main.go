@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/paulusrobin/gogen-cmd/cmd/command"
 	"github.com/paulusrobin/gogen-cmd/cmd/initialize"
 	"github.com/paulusrobin/gogen-cmd/cmd/pkg/endpoint"
 	"github.com/paulusrobin/gogen-cmd/cmd/pkg/repository"
@@ -19,6 +20,7 @@ func main() {
 		endpoint.Cmd(),
 		usecase.Cmd(),
 		repository.Cmd(),
+		command.Cmd(),
 	)
 
 	// execute command
