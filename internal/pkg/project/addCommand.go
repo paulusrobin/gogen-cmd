@@ -12,5 +12,6 @@ func AddCommand(request parameter.AddCommand) error {
 	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(cmd.Add(request)),
 		functions.MakeFunc(root.Tidy()),
+		functions.MakeFunc(root.Fmt()),
 	})
 }

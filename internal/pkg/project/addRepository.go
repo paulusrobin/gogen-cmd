@@ -29,5 +29,6 @@ func AddRepository(request parameter.AddRepository) error {
 		})),
 		functions.MakeFunc(repository.Add(request)),
 		functions.MakeFunc(root.Tidy()),
+		functions.MakeFunc(root.Fmt()),
 	})
 }

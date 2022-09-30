@@ -15,5 +15,6 @@ func Init(cfg parameter.ProjectConfig) error {
 		functions.MakeFunc(cmd.Init(cfg)),
 		functions.MakeFunc(internal.Init(cfg)),
 		functions.MakeFunc(root.Tidy()),
+		functions.MakeFunc(root.Fmt()),
 	})
 }

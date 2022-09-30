@@ -1,12 +1,11 @@
-package main
+package main {{ $module := .ProjectModule }}
 
 import (
 	"github.com/rs/zerolog"
 	"github.com/spf13/cobra"
-	"{{.ProjectModule}}/cmd/grpc"
-	"{{.ProjectModule}}/cmd/http"
-	"{{.ProjectModule}}/cmd/subscriber"
 	"{{.ProjectModule}}/internal/config"
+	{{range $command := .Commands}}"{{$module}}/cmd/{{$command}}"
+	{{end}}
 )
 
 var (
@@ -23,10 +22,8 @@ func main() {
 	zerolog.SetGlobalLevel(globalLogLevel)
 
 	cmd.AddCommand(
-		http.Cmd(cfg),       // add http command
-		grpc.Cmd(cfg),       // add grpc command
-		subscriber.Cmd(cfg), // add subscriber command
-	)
+	    {{range $command := .Commands}}{{$command}}.Cmd(cfg), // add {{$command}} command
+        {{end}})
 
 	// execute command
 	if err := cmd.Execute(); err != nil {

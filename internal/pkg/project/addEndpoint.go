@@ -28,5 +28,6 @@ func AddEndpoint(request parameter.AddEndpoint) error {
 			PackageName:   request.PackageName,
 		})),
 		functions.MakeFunc(root.Tidy()),
+		functions.MakeFunc(root.Fmt()),
 	})
 }

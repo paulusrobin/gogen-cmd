@@ -12,21 +12,29 @@ import (
 	"{{.ProjectModule}}/internal/server"
 )
 
+func validatedServerConfig(cfg config.Config) bool {
+    return cfg.IsValidHTTP()
+}
+
+func initializeServer(sig chan os.Signal, cfg config.Config) (Server, error) {
+    return server.HTTP(sigChannel, cfg)
+}
+
 func runner(cfg config.Config) func(c *cobra.Command, args []string) error {
 	return func(_ *cobra.Command, args []string) error {
-		if !cfg.IsValidHTTP() {
-			return fmt.Errorf("invalid required config for http")
-		}
+		if !validatedServerConfig(cfg) {
+            return fmt.Errorf("invalid required config for {{.ServerName}}")
+        }
 
 		log.Info().Msgf("[http-server] starting server with [%s] log level", zerolog.GlobalLevel().String())
 
 		sigChannel := make(chan os.Signal, 1)
 		signal.Notify(sigChannel, os.Interrupt, syscall.SIGTERM, syscall.SIGQUIT)
 
-		s, err := server.HTTP(sigChannel, cfg)
-		if err != nil {
-			return err
-		}
+		s, err := initializeServer(sigChannel, cfg)
+        if err != nil {
+            return err
+        }
 
 		go s.Run()
 

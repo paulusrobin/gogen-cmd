@@ -21,5 +21,6 @@ func RemoveUsecase(request parameter.RemoveUsecase) error {
 		})),
 		functions.MakeFunc(usecase.Remove(request)),
 		functions.MakeFunc(root.Tidy()),
+		functions.MakeFunc(root.Fmt()),
 	})
 }

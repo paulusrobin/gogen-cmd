@@ -23,5 +23,6 @@ func RemoveEndpoint(request parameter.RemoveEndpoint) error {
 		functions.MakeFunc(encoding.Remove(request)),
 		functions.MakeFunc(endpoint.Remove(request)),
 		functions.MakeFunc(root.Tidy()),
+		functions.MakeFunc(root.Fmt()),
 	})
 }

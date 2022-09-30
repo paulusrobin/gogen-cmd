@@ -3,7 +3,20 @@ package convention
 import "strings"
 
 func PackageName(name string) string {
-	return strings.ToLower(name)
+	return strings.ReplaceAll(strings.ToLower(name), "-", "_")
+}
+
+func CommandName(name string) string {
+	var toBeReplace = map[string]string{
+		" ": "-",
+		"_": "-",
+	}
+
+	name = strings.ToLower(name)
+	for key, value := range toBeReplace {
+		name = strings.ReplaceAll(name, key, value)
+	}
+	return name
 }
 
 func EndpointName(name string) string {

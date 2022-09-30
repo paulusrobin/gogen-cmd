@@ -8,5 +8,4 @@ import (
 // UseCase interface of {{.PackageName}} package.
 type UseCase interface {
     {{range $functionName := .UsecaseFunctions}}{{$functionName}}(ctx context.Context, request dto.{{$functionName}}UsecaseRequest) (dto.{{$functionName}}UsecaseResponse, error)
-    {{end}}
-}
+    {{end}}}

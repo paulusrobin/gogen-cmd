@@ -12,5 +12,6 @@ func RemoveCommand(request parameter.RemoveCommand) error {
 	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(cmd.Remove(request)),
 		functions.MakeFunc(root.Tidy()),
+		functions.MakeFunc(root.Fmt()),
 	})
 }

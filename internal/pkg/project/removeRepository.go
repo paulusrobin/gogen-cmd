@@ -29,5 +29,6 @@ func RemoveRepository(request parameter.RemoveRepository) error {
 		})),
 		functions.MakeFunc(repository.Remove(request)),
 		functions.MakeFunc(root.Tidy()),
+		functions.MakeFunc(root.Fmt()),
 	})
 }
