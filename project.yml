@@ -1,0 +1,44 @@
+project:
+    - cmd:
+        - http:
+            - http.go
+        - <package>:
+            - <package>.go
+        - main.go
+    - db:
+        - migrations:
+            - x.up.sql
+            - x.down.sql
+    - internal:
+        - config:
+              - config.go
+              - configRuntime.go
+              - provider.go
+        - pkg:
+            - greeting:
+                - dto
+                - encoding
+                - endpoint
+                - usecase
+                endpoint.go
+                usecase.go
+            - <package>:
+                - dto
+                - encoding
+                - endpoint
+                - usecase
+                endpoint.go
+                usecase.go
+        - repository:
+            - model:
+                - <model>.go
+            - <repository>:
+                - dto
+                - <implementation>
+                - repository.go
+    - pkg:
+        - postgres
+        - redis
+    - test:
+        - functional
+        - integration

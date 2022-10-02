@@ -1,0 +1,21 @@
+package endpoint
+
+import (
+	"context"
+	"fmt"
+	"github.com/go-kit/kit/endpoint"
+	"{{.ProjectModule}}/internal/pkg/{{.PackageName}}/dto"
+)
+
+// {{.EndpointName}} function to implement endpoint.
+func (e Endpoint) {{.EndpointName}}() endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+        payload, ok := request.(dto.{{.EndpointName}}EndpointRequest)
+        if !ok {
+            return nil, fmt.Errorf("invalid request")
+        }
+
+        // TODO: implement endpoint function
+        panic("implement me")
+    }
+}

@@ -1,31 +1,10 @@
-package endpoint
+package {{.PackageName}}
 
 import (
-	"context"
-	"fmt"
 	"github.com/go-kit/kit/endpoint"
-	validator "github.com/paulusrobin/gogen-golib/validator/interface"
-	"{{.ProjectModule}}/internal/config"
-	"{{.ProjectModule}}/internal/pkg/{{.PackageName}}"
-	"{{.ProjectModule}}/internal/pkg/{{.PackageName}}/dto"
 )
 
-// {{.EndpointName}}Param parameter.
-type {{.EndpointName}}Param struct {
-	Cfg        config.Config
-	UseCase    {{.PackageName}}.UseCase
-	Validation validator.Validation
-}
-
-// {{.EndpointName}}Endpoint endpoint.
-func {{.EndpointName}}Endpoint(param {{.EndpointName}}Param) endpoint.Endpoint {
-	return func(ctx context.Context, request interface{}) (interface{}, error) {
-	    payload, ok := request.(dto.{{.EndpointName}}EndpointRequest)
-	    if !ok {
-	        return nil, fmt.Errorf("invalid request")
-	    }
-
-		// TODO: implement endpoint function
-		panic("implement me")
-	}
-}
+// Endpoint interface of {{.PackageName}} package.
+type Endpoint interface {
+    {{range $endpoint := .Endpoints}}{{$endpoint}}() endpoint.Endpoint
+    {{end}}}

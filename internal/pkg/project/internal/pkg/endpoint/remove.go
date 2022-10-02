@@ -11,5 +11,8 @@ import (
 func Remove(request parameter.RemoveEndpoint) error {
 	_ = file.Remove(fmt.Sprintf("internal/pkg/%s/endpoint/%s.go",
 		convention.FileName(request.PackageName), convention.FileName(request.EndpointName)))
-	return nil
+	return Generate(parameter.ProjectConfigWithPackage{
+		ProjectConfig: request.ProjectConfig,
+		PackageName:   request.PackageName,
+	})
 }

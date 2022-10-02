@@ -21,12 +21,12 @@ func AddEndpoint(request parameter.AddEndpoint) error {
 			Name: request.EndpointName,
 			Type: "Endpoint",
 		})),
-		functions.MakeFunc(encoding.Add(request)),
-		functions.MakeFunc(endpoint.Add(request)),
 		functions.MakeFunc(usecase.Generate(parameter.ProjectConfigWithPackage{
 			ProjectConfig: request.ProjectConfig,
 			PackageName:   request.PackageName,
 		})),
+		functions.MakeFunc(encoding.Add(request)),
+		functions.MakeFunc(endpoint.Add(request)),
 		functions.MakeFunc(root.Tidy()),
 		functions.MakeFunc(root.Fmt()),
 	})

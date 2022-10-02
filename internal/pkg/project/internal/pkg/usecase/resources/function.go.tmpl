@@ -6,7 +6,10 @@ import (
 )
 
 // {{.FunctionName}} function to implement use case.
-func (u useCase) {{.FunctionName}}(ctx context.Context, request dto.{{.FunctionName}}UsecaseRequest) (dto.{{.FunctionName}}UsecaseResponse, error) {
+func (u useCase) {{.FunctionName}}(
+    ctx context.Context,
+    request dto.{{.FunctionName}}UsecaseRequest,
+) (dto.{{.FunctionName}}UsecaseResponse, error) {
 	// TODO: implement me
 	panic("implement me")
 }

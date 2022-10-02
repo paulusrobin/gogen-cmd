@@ -27,11 +27,15 @@ func Add(request parameter.AddEndpoint) error {
 		fmt.Sprintf("internal/pkg/%s/endpoint", packageFileName),
 	}
 	generatedFiles := map[string]string{
-		fmt.Sprintf("internal/pkg/%s/endpoint/%s.go", packageFileName, endpointFileName): string(endpointTemplate),
+		fmt.Sprintf("internal/pkg/%s/endpoint/%s.go", packageFileName, endpointFileName): string(endpointFunctionTemplate),
 	}
 
 	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(generator.Folder(request.Path, generatedFolders)),
 		functions.MakeFunc(generator.File(request.Path, generatedFiles, parameters)),
+		functions.MakeFunc(Generate(parameter.ProjectConfigWithPackage{
+			ProjectConfig: request.ProjectConfig,
+			PackageName:   request.PackageName,
+		})),
 	})
 }
