@@ -1,6 +1,6 @@
 version: '3.1'
 services:
-  gogen:
+  {{.ProjectName}}:
     build:
       context: ../../..
       dockerfile: Dockerfile-builder

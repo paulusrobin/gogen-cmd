@@ -12,12 +12,17 @@ import (
 	"{{.ProjectModule}}/internal/server"
 )
 
+type Server interface {
+	Run() error
+	Shutdown() error
+}
+
 func validatedServerConfig(cfg config.Config) bool {
     return cfg.IsValidHTTP()
 }
 
 func initializeServer(sig chan os.Signal, cfg config.Config) (Server, error) {
-    return server.HTTP(sigChannel, cfg)
+    return server.HTTP(sig, cfg)
 }
 
 func runner(cfg config.Config) func(c *cobra.Command, args []string) error {
