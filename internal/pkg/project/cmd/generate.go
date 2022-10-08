@@ -36,6 +36,7 @@ func Generate(request parameter.ProjectConfig) error {
 			string(mainTemplate),
 			map[string]interface{}{
 				"ProjectModule": request.Module,
+				"ProjectName":   request.Name,
 				"Commands":      commands,
 			},
 		)),
