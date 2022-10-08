@@ -9,6 +9,7 @@ import (
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/parameter"
 	"io/fs"
 	"path"
+	"strings"
 )
 
 func generateRoot(request parameter.ProjectConfigWithRepository) error {
@@ -17,10 +18,10 @@ func generateRoot(request parameter.ProjectConfigWithRepository) error {
 
 	repositoryInterfaces, err := directory.FileNamesWithFilter(
 		packagePath, directory.AllFilter, func(infoPath string, info fs.FileInfo) bool {
-			if !info.IsDir() && info.Name() != "repository.go" {
-				return true
+			if info.IsDir() || strings.Contains(infoPath, "dto") || info.Name() == "repository.go" {
+				return false
 			}
-			return false
+			return true
 		})
 	if err != nil {
 		return err
@@ -30,7 +31,7 @@ func generateRoot(request parameter.ProjectConfigWithRepository) error {
 	for _, repositoryInterface := range repositoryInterfaces {
 		repositoryFunctions = append(repositoryFunctions, "I"+convention.FunctionFromFile(repositoryInterface))
 	}
-	
+
 	_ = file.Remove(fileOutput)
 	return file.Generate(fileOutput, string(repositoryTemplate), map[string]interface{}{
 		"PackageName": convention.PackageName(request.RepositoryName),
