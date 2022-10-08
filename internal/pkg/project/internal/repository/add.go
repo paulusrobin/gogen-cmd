@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"fmt"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/convention"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/functions"
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/generator"
@@ -21,7 +20,7 @@ func Add(request parameter.AddRepository) error {
 
 	generatedFolders = append(generatedFolders, request.GeneratedFolders()...)
 	generatedFiles = map[string]string{
-		fmt.Sprintf("%s/%s.go", repositoryPath, convention.FileName(request.FunctionName)): string(repositoryFunctionTemplate),
+		request.FunctionPath(): string(repositoryFunctionTemplate),
 	}
 
 	return functions.WalkSkipErrors([]functions.Func{
@@ -30,13 +29,11 @@ func Add(request parameter.AddRepository) error {
 			"PackageName":   convention.PackageName(request.RepositoryName),
 			"ProjectModule": request.ProjectConfig.Module,
 			"FunctionName":  convention.FunctionName(request.FunctionName),
-			"ParameterName": convention.FunctionName(request.RepositoryName) +
-				convention.FunctionName(request.FunctionName),
+			"InterfaceName": convention.InterfaceName(request.FunctionName),
 		})),
 		functions.MakeFunc(Generate(parameter.ProjectConfigWithRepository{
 			ProjectConfig:  request.ProjectConfig,
 			RepositoryPath: repositoryPath,
-			PackageName:    request.PackageName,
 			RepositoryName: request.RepositoryName,
 		})),
 	})

@@ -13,7 +13,6 @@ type (
 	ProjectConfigWithRepository struct {
 		ProjectConfig
 		RepositoryPath string
-		PackageName    string
 		RepositoryName string
 	}
 )

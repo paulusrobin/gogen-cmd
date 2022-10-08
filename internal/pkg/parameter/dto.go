@@ -12,13 +12,13 @@ type (
 		Type string
 	}
 	AddRepositoryDataTransferObject struct {
-		ProjectConfigWithPackage
+		ProjectConfig
 		RepositoryName string
 		Name           string
 		Type           string
 	}
 	RemoveRepositoryDataTransferObject struct {
-		ProjectConfigWithPackage
+		ProjectConfig
 		RepositoryName string
 		Name           string
 		Type           string

@@ -41,7 +41,7 @@ func generateRoot(parameters parameter.ProjectConfigWithPackage) error {
 		if strings.ToLower(fileName) == "root.go" {
 			continue
 		}
-		usecaseFunctions = append(usecaseFunctions, convention.FunctionNameFromFile(fileName))
+		usecaseFunctions = append(usecaseFunctions, convention.FunctionFromFile(fileName))
 	}
 
 	_ = file.Remove(fileOutput)

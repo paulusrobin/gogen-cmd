@@ -41,7 +41,7 @@ func generateRoot(parameters parameter.ProjectConfigWithPackage) error {
 		if strings.ToLower(fileName) == "root.go" {
 			continue
 		}
-		endpoints = append(endpoints, convention.FunctionNameFromFile(fileName))
+		endpoints = append(endpoints, convention.FunctionFromFile(fileName))
 	}
 
 	_ = file.Remove(fileOutput)

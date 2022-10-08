@@ -7,14 +7,13 @@ import (
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project"
 	"github.com/spf13/cobra"
 	"log"
-	"path"
 )
 
 var (
 	projectName    string
 	projectModule  string
 	repositoryName string
-	packageName    string
+	interfaceName  string
 	functionName   string
 	withModel      bool
 	requiredFlags  []string
@@ -40,14 +39,13 @@ func runner(cmd *cobra.Command, args []string) error {
 			Module: projectModule,
 		},
 		RepositoryName: repositoryName,
-		PackageName:    packageName,
 		FunctionName:   functionName,
 		ModelName:      modelName,
 	}); err != nil {
 		return err
 	}
 
-	log.Printf("succesfully added %s on %s repository package", functionName, path.Join(packageName, repositoryName))
+	log.Printf("succesfully added %s on %s repository package", functionName, repositoryName)
 	return nil
 }
 
@@ -90,8 +88,7 @@ func Cmd() *cobra.Command {
 	cmd.Flags().StringVarP(&projectName, "name", "n", "", "generated project name")
 	cmd.Flags().StringVarP(&projectModule, "module", "m", "", "generated project module")
 	cmd.Flags().StringVarP(&repositoryName, "repository", "r", "", "generated repository name (required)")
-	cmd.Flags().StringVarP(&functionName, "function", "f", "", "generated function name (required)")
-	cmd.Flags().StringVarP(&packageName, "package", "p", "", "generated package name (optional)")
+	cmd.Flags().StringVarP(&functionName, "function", "f", "", "generated repository function name (required)")
 	cmd.Flags().BoolVarP(&withModel, "model", "o", false, "generate model (optional)")
 	return cmd
 }

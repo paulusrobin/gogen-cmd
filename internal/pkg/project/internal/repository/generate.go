@@ -9,70 +9,32 @@ import (
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/parameter"
 	"io/fs"
 	"path"
-	"strings"
 )
 
-func generateObject(request parameter.ProjectConfigWithRepository) error {
-	repositoryPath := convention.PackageName(request.RepositoryPath)
-	fileOutput := path.Join(request.Path, repositoryPath, "root.go")
-	if file.Exist(fileOutput) {
-		return nil
-	}
-
-	return file.Generate(fileOutput, string(repositoryTemplate), map[string]interface{}{
-		"PackageName":    convention.PackageName(request.RepositoryName),
-		"ProjectModule":  request.Module,
-		"RepositoryName": convention.ToUpperFirstLetter(request.RepositoryName),
-	})
-}
-
 func generateRoot(request parameter.ProjectConfigWithRepository) error {
-	packagePath := path.Join(request.Path, "internal/repository")
-	fileOutput := path.Join(packagePath, "repositories.go")
-	fn := func(packageName string, functions []string) []parameter.RepositoryFunctionTemplate {
-		var response = make([]parameter.RepositoryFunctionTemplate, 0)
-		for _, function := range functions {
-			response = append(response, parameter.RepositoryFunctionTemplate{
-				Name:    function,
-				Package: packageName,
-			})
-		}
-		return response
-	}
+	packagePath := path.Join(request.Path, "internal/repository", request.RepositoryName)
+	fileOutput := path.Join(packagePath, "repository.go")
 
-	var repositoriesFunctions = make(map[string][]parameter.RepositoryFunctionTemplate)
-	repositories, err := directory.FileNamesWithFilter(packagePath, directory.AllFilter, func(infoPath string, info fs.FileInfo) bool {
-		if info.IsDir() && file.Exist(path.Join(infoPath, "root.go")) {
-			functionNames, err := directory.FileNamesWithFilter(infoPath, directory.AllFilter, func(_ string, fileInfo fs.FileInfo) bool {
-				if fileInfo.IsDir() || strings.ToLower(fileInfo.Name()) == "root.go" {
-					return false
-				}
+	repositoryInterfaces, err := directory.FileNamesWithFilter(
+		packagePath, directory.AllFilter, func(infoPath string, info fs.FileInfo) bool {
+			if !info.IsDir() && info.Name() != "repository.go" {
 				return true
-			})
-			if err != nil {
-				return false
 			}
-			repositoriesFunctions[info.Name()] = fn(convention.ToUpperFirstLetter(info.Name()), convention.FunctionsNameFromFile(functionNames))
-			return true
-		}
-		return false
-	})
+			return false
+		})
 	if err != nil {
 		return err
 	}
 
-	parameters := make([]parameter.RepositoryTemplate, 0)
-	for _, repository := range repositories {
-		parameters = append(parameters, parameter.RepositoryTemplate{
-			Name:      convention.FunctionName(repository),
-			Functions: repositoriesFunctions[repository],
-		})
+	var repositoryFunctions = make([]string, 0)
+	for _, repositoryInterface := range repositoryInterfaces {
+		repositoryFunctions = append(repositoryFunctions, "I"+convention.FunctionFromFile(repositoryInterface))
 	}
-
+	
 	_ = file.Remove(fileOutput)
-	return file.Generate(fileOutput, string(interfacesTemplate), map[string]interface{}{
-		"ProjectModule": request.Module,
-		"Repositories":  parameters,
+	return file.Generate(fileOutput, string(repositoryTemplate), map[string]interface{}{
+		"PackageName": convention.PackageName(request.RepositoryName),
+		"Functions":   repositoryFunctions,
 	})
 }
 
@@ -85,7 +47,6 @@ func Generate(request parameter.ProjectConfigWithRepository) error {
 
 	return functions.WalkSkipErrors([]functions.Func{
 		functions.MakeFunc(generator.Folder(request.Path, generatedFolders)),
-		functions.MakeFunc(generateObject(request)),
 		functions.MakeFunc(generateRoot(request)),
 	})
 }

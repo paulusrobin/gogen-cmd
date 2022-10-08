@@ -7,21 +7,19 @@ import (
 	"github.com/paulusrobin/gogen-cmd/internal/pkg/project"
 	"github.com/spf13/cobra"
 	"log"
-	"path"
 )
 
 var (
 	projectName    string
 	projectModule  string
 	repositoryName string
-	packageName    string
 	functionName   string
 	withModel      bool
 	requiredFlags  []string
 )
 
 func init() {
-	requiredFlags = []string{"repository", "package", "function"}
+	requiredFlags = []string{"repository", "function"}
 }
 
 func runner(cmd *cobra.Command, args []string) error {
@@ -40,14 +38,13 @@ func runner(cmd *cobra.Command, args []string) error {
 			Module: projectModule,
 		},
 		RepositoryName: repositoryName,
-		PackageName:    packageName,
 		FunctionName:   functionName,
 		ModelName:      modelName,
 	}); err != nil {
 		return err
 	}
 
-	log.Printf("succesfully removed %s on %s repository package", functionName, path.Join(packageName, repositoryName))
+	log.Printf("succesfully removed %s on %s repository package", functionName, repositoryName)
 	return nil
 }
 
@@ -91,7 +88,6 @@ func Cmd() *cobra.Command {
 	cmd.Flags().StringVarP(&projectModule, "module", "m", "", "removed project module")
 	cmd.Flags().StringVarP(&repositoryName, "repository", "r", "", "removed repository name (required)")
 	cmd.Flags().StringVarP(&functionName, "function", "f", "", "removed function name (required)")
-	cmd.Flags().StringVarP(&packageName, "package", "p", "", "removed package name (optional)")
 	cmd.Flags().BoolVarP(&withModel, "model", "o", false, "remove model (optional)")
 	return cmd
 }

@@ -19,10 +19,7 @@ func AddRepository(request parameter.AddRepository) error {
 			SkipIfError:    true,
 		})),
 		functions.MakeFunc(dto.Add(parameter.AddRepositoryDataTransferObject{
-			ProjectConfigWithPackage: parameter.ProjectConfigWithPackage{
-				ProjectConfig: request.ProjectConfig,
-				PackageName:   request.PackageName,
-			},
+			ProjectConfig:  request.ProjectConfig,
 			RepositoryName: request.RepositoryName,
 			Name:           request.FunctionName,
 			Type:           "Repository",

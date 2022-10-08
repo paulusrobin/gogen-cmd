@@ -2,11 +2,9 @@ package {{.PackageName}}
 
 import (
 	"context"
-	dtoRepository "{{.ProjectModule}}/internal/repository/model/dto"
+	"{{.ProjectModule}}/internal/repository/{{.PackageName}}/dto"
 )
 
-// {{.FunctionName}} function to implement repository.
-func (r repositoryImplementation) {{.FunctionName}}(ctx context.Context, request dtoRepository.{{.ParameterName}}RepositoryRequest) (dtoRepository.{{.ParameterName}}RepositoryResponse, error) {
-	// TODO: implement me
-	panic("implement me")
+type {{.InterfaceName}} interface {
+	{{.FunctionName}}(ctx context.Context, request dto.{{.FunctionName}}Request) (dto.{{.FunctionName}}Response, error)
 }

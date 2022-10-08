@@ -1,12 +1,7 @@
 package {{.PackageName}}
 
-import (
-	"{{.ProjectModule}}/internal/repository"
+type (
+    Repository interface {
+    {{range $function := .Functions}}{{$function}}
+    {{end}}}
 )
-
-type repositoryImplementation struct {}
-
-// NewRepository function to initialize repository.
-func NewRepository() repository.{{.RepositoryName}}Repository {
-	return repositoryImplementation{}
-}

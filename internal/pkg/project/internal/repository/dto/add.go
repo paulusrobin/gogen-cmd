@@ -10,24 +10,19 @@ import (
 
 // Add function.
 func Add(request parameter.AddRepositoryDataTransferObject) error {
-	name := fmt.Sprintf("%s%s",
-		convention.ToUpperFirstLetter(request.RepositoryName),
-		convention.ToUpperFirstLetter(request.Name),
-	)
-
 	parameters := map[string]interface{}{
-		"Name": convention.FunctionName(name),
-		"Type": convention.ToUpperFirstLetter(request.Type),
+		"Function": convention.FunctionName(request.Name),
 	}
 
 	generatedFolders := []string{
 		"internal",
 		"internal/repository",
-		"internal/repository/model",
-		"internal/repository/model/dto",
+		fmt.Sprintf("internal/repository/%s", convention.PackageName(request.RepositoryName)),
+		fmt.Sprintf("internal/repository/%s/dto", convention.PackageName(request.RepositoryName)),
 	}
 	generatedFiles := map[string]string{
-		fmt.Sprintf("internal/repository/model/dto/%s.go", name): string(dtoTemplate),
+		fmt.Sprintf("internal/repository/%s/dto/%s.go",
+			convention.PackageName(request.RepositoryName), convention.FileName(request.Name)): string(dtoTemplate),
 	}
 
 	return functions.WalkSkipErrors([]functions.Func{

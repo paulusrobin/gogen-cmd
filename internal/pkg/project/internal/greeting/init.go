@@ -23,7 +23,9 @@ func Init(cfg parameter.ProjectConfig) error {
 		"internal/pkg/greeting/usecase",
 	}
 	generatedFiles := map[string]string{
-		"internal/pkg/greeting/endpoint/greeting.go": string(greetingEndpointTemplate),
+		"internal/pkg/greeting/endpoint/greeting.go": string(greetingEndpointFunctionTemplate),
+		"internal/pkg/greeting/endpoint/root.go":     string(greetingEndpointObjectTemplate),
+		"internal/pkg/greeting/endpoint.go":          string(greetingEndpointTemplate),
 		"internal/pkg/greeting/dto/greeting.go":      string(greetingDataTransferObjectTemplate),
 		"internal/pkg/greeting/encoding/greeting.go": string(greetingDataTransferObjectEncodingTemplate),
 		"internal/pkg/greeting/usecase/greeting.go":  string(greetingUsecaseFunctionTemplate),

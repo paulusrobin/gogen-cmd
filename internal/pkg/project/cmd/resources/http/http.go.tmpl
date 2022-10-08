@@ -8,11 +8,16 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"{{.ProjectModule}}/internal/config"
-	"{{.ProjectModule}}/internal/server"
+	"github.com/labstack/echo/v4"
+    goKitEcho "github.com/paulusrobin/gogen-golib/go-kit/echo"
+    httpServer "github.com/paulusrobin/gogen-golib/server/http"
+    goPlaygroundV10 "github.com/paulusrobin/gogen-golib/validator/integrations/go-playground-v10"
+    "{{.ProjectModule}}/internal/config"
+    greetingEncoding "{{.ProjectModule}}/internal/pkg/greeting/encoding"
+    greetingEndpoint "{{.ProjectModule}}/internal/pkg/greeting/endpoint"
 )
 
-type Server interface {
+type IServer interface {
 	Run() error
 	Shutdown() error
 }
@@ -21,8 +26,22 @@ func validatedServerConfig(cfg config.Config) bool {
     return cfg.IsValidHTTP()
 }
 
-func initializeServer(sig chan os.Signal, cfg config.Config) (Server, error) {
-    return server.HTTP(sig, cfg)
+func initializeServer(sig chan os.Signal, cfg config.Config) (IServer, error) {
+    validation := goPlaygroundV10.NewValidation()
+    return httpServer.Server(sig,
+        httpServer.Config{
+            Port:             cfg.HTTP.Port,
+            GracefulDuration: cfg.HTTP.GracefulDuration,
+        },
+        httpServer.RegisterRoute(func(ec *echo.Echo) {
+            greeting := greetingEndpoint.NewEndpoint(cfg, validation)
+            greet := ec.Group("/greetings")
+            greet.GET("", goKitEcho.Handler(
+                greeting.Greet(),
+                goKitEcho.WithDecoder(greetingEncoding.DecodeGreetingRequest(validation)),
+            ))
+        }),
+    )
 }
 
 func runner(cfg config.Config) func(c *cobra.Command, args []string) error {

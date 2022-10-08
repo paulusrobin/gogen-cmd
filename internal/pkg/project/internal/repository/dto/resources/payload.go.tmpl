@@ -1,13 +1,13 @@
-package repositoryDto
+package dto
 
 import (
 	"github.com/paulusrobin/gogen-golib/mandatory"
 )
 
 type (
-	{{.Name}}{{.Type}}Request struct {
+	{{.Function}}Request struct {
 		Mandatory  mandatory.Request
 	}
-	{{.Name}}{{.Type}}Response struct {
+	{{.Function}}Response struct {
 	}
 )

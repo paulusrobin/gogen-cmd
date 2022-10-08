@@ -1,0 +1,23 @@
+package endpoint
+
+import (
+	validator "github.com/paulusrobin/gogen-golib/validator/interface"
+	"{{.ProjectModule}}/internal/config"
+	"{{.ProjectModule}}/internal/pkg/greeting"
+	"{{.ProjectModule}}/internal/pkg/greeting/usecase"
+)
+
+type Endpoint struct {
+	cfg        config.Config
+	useCase    greeting.UseCase
+	validation validator.Validation
+}
+
+// NewEndpoint function to initialize greeting endpoint.
+func NewEndpoint(cfg config.Config, validation validator.Validation) Endpoint {
+	return Endpoint{
+		cfg:        cfg,
+		validation: validation,
+		useCase:    usecase.NewUseCase(),
+	}
+}

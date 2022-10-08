@@ -9,11 +9,7 @@ import (
 
 // Remove function.
 func Remove(request parameter.RemoveRepositoryDataTransferObject) error {
-	name := fmt.Sprintf("%s%s%s",
-		convention.ToLowerFirstLetter(request.PackageName),
-		convention.ToUpperFirstLetter(request.RepositoryName),
-		convention.ToUpperFirstLetter(request.Name),
-	)
-	_ = file.Remove(fmt.Sprintf("internal/repository/model/dto/%s.go", name))
+	_ = file.Remove(fmt.Sprintf("internal/repository/%s/dto/%s.go",
+		convention.PackageName(request.RepositoryName), convention.FileName(request.Name)))
 	return nil
 }

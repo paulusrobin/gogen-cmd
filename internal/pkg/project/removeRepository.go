@@ -19,10 +19,7 @@ func RemoveRepository(request parameter.RemoveRepository) error {
 			SkipIfError:    true,
 		})),
 		functions.MakeFunc(dto.Remove(parameter.RemoveRepositoryDataTransferObject{
-			ProjectConfigWithPackage: parameter.ProjectConfigWithPackage{
-				ProjectConfig: request.ProjectConfig,
-				PackageName:   request.PackageName,
-			},
+			ProjectConfig:  request.ProjectConfig,
 			RepositoryName: request.RepositoryName,
 			Name:           request.FunctionName,
 			Type:           "Repository",
