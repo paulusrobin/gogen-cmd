@@ -18,7 +18,10 @@ func generateRoot(request parameter.ProjectConfigWithRepository) error {
 
 	repositoryInterfaces, err := directory.FileNamesWithFilter(
 		packagePath, directory.AllFilter, func(infoPath string, info fs.FileInfo) bool {
-			if info.IsDir() || strings.Contains(infoPath, "dto") || info.Name() == "repository.go" {
+			if info.IsDir() || info.Name() == "repository.go" {
+				return false
+			}
+			if len(strings.Split(strings.ReplaceAll(infoPath, packagePath, ""), "/")) > 2 {
 				return false
 			}
 			return true
