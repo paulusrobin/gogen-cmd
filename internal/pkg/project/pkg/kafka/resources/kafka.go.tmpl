@@ -1,6 +1,9 @@
 package kafka
 
-imports "github.com/Shopify/sarama"
+import (
+    "github.com/Shopify/sarama"
+    "github.com/rs/zerolog/log"
+)
 
 type (
     Publisher interface {
