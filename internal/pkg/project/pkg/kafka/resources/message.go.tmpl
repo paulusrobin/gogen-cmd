@@ -1,0 +1,48 @@
+package kafka
+
+imports (
+    "github.com/Shopify/sarama"
+    gogenTime "github.com/paulusrobin/gogen-golib/time"
+)
+
+type (
+    Encoder interface {
+        Encode() ([]byte, error)
+        Length() int
+    }
+    RecordHeaders []RecordHeader
+    RecordHeader struct {
+        Key string
+        Value string
+    }
+    Message struct {
+        Topic string
+        Key Encoder
+        Value Encoder
+        Header RecordHeaders
+        Metadata interface{}
+    }
+)
+
+func (headers RecordHeaders) SaramaHeaders() []sarama.RecordHeader {
+    var response = make([]sarama.RecordHeader, 0)
+    for _, header := range headers {
+        response append(response, header.SaramaHeader())
+    }
+    return response
+}
+
+func (header RecordHeader) SaramaHeader() sarama.RecordHeader {
+    return sarama.RecordHeader{Key: []byte(header.Key), Value: []byte(header.Value)}
+}
+
+func (msg Message) SaramaMessage() *sarama.ProducerMessage {
+    return &sarama.ProducerMessage{
+        Topic:     msg.Topic,
+        Key:       sarama.Encoder(msg.Key),
+        Value:     sarama.Encoder(msg.Value),
+        Headers:   msg.Header.SaramaHeaders(),
+        Metadata:  msg.Metadata,
+        Timestamp: gogenTime.Now(),
+   }
+}

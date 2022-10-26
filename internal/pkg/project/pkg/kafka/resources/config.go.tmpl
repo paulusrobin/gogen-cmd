@@ -1,0 +1,22 @@
+package resources
+
+import (
+    "strings"
+
+    "github.com/Shopify/sarama"
+)
+
+type Config struct {
+	// Brokers required, kafka brokers separated by comma.
+	Brokers string
+}
+
+// SaramaConfig get kafka sarama config
+func (cfg Config) SaramaConfig() *sarama.Config {
+	return sarama.NewConfig()
+}
+
+// BrokerList get kafka broker list
+func (cfg Config) BrokerList() []string {
+    return strings.Split(cfg.Brokers, ",")
+}

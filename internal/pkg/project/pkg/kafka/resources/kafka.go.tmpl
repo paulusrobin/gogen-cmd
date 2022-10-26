@@ -1,0 +1,43 @@
+package kafka
+
+imports "github.com/Shopify/sarama"
+
+type (
+    Publisher interface {
+        Publish(ctx context.Context, message Message) error
+    }
+    publisher struct {
+        cfg Config
+        producer sarama.SyncProducer
+    }
+)
+
+// Publish functions to implement Publisher
+func (publisher publisher) Publish(ctx context.Context, msg Message) error {
+    partition , offset, err := producer.SendMessage(msg.SaramaMessage())
+    if err != nil {
+        log.Error().Err(err).Fields(map[string]interface{}{
+            "partition": partition,
+            "offset": offset,
+            "message": msg,
+            "error": err,
+        }).Msgf("failed on publishing message to kafka: %w", err)
+        return err
+    }
+
+    log.Info().Fields(map[string]interface{}{
+        "partition": partition,
+        "offset": offset,
+        "message": msg,
+    }).Msgf("success on publishing message to kafka")
+    return nil
+}
+
+// Publisher function to instantiate kafka publisher
+func Publisher(cfg Config) (Publisher, err) {
+    producer, err := sarama.NewSyncProducer(cfg.BrokerList(), s.cfg.SaramaConfig())
+    if err != nil {
+        return nil, err
+    }
+    return publisher{cfg: cfg, producer: producer}
+}

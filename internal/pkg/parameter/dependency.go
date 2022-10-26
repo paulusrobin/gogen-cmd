@@ -11,4 +11,5 @@ type (
 const (
 	Postgres Dependency = "postgres"
 	Redis    Dependency = "redis"
+	Kafka    Dependency = "kafka"
 )
