@@ -1,6 +1,7 @@
 package integration
 
 import (
+	"github.com/paulusrobin/gogen-cmd/cmd/integration/kafka"
 	"github.com/paulusrobin/gogen-cmd/cmd/integration/postgres"
 	"github.com/paulusrobin/gogen-cmd/cmd/integration/redis"
 	"github.com/spf13/cobra"
@@ -12,6 +13,6 @@ func Cmd() *cobra.Command {
 		Use:   "integration",
 		Short: "generate gogen project integration package",
 	}
-	cmd.AddCommand(postgres.Cmd(), redis.Cmd())
+	cmd.AddCommand(postgres.Cmd(), redis.Cmd(), kafka.Cmd())
 	return cmd
 }
