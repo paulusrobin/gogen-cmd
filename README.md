@@ -26,4 +26,12 @@ or
 gogen init --module-name <module-name> --project-name <project-name> [--in-folder]
 ```
 
-### Endpoint Project
+## Command List
+| Command    | Description        | Checklist |
+|------------|--------------------|-----------|
+| init       | initialize project | [x]       |
+| endpoint   | endpoint module    | [x]       |
+| usecase    | usecase module     | [x]       |
+| repository | repository module  | [x]       |
+| cmd        | cmd module         | [x]       |
+| config     | config module      | [ ]       |

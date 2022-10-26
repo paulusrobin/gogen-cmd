@@ -17,10 +17,11 @@ type Endpoint struct{
 func NewEndpoint(
     cfg config.Config,
 	validation validator.Validation,
+	useCase {{.PackageName}}.UseCase,
 ) {{.PackageName}}.Endpoint {
 	return Endpoint{
 	    cfg: cfg,
 	    validation: validation,
-	    useCase: usecase.NewUseCase(),
+	    useCase: useCase,
 	}
 }
