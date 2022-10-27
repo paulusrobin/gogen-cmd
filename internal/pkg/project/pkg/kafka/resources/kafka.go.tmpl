@@ -1,6 +1,7 @@
 package kafka
 
 import (
+    "context"
     "github.com/Shopify/sarama"
     "github.com/rs/zerolog/log"
 )
@@ -36,8 +37,8 @@ func (publisher publisher) Publish(ctx context.Context, msg Message) error {
     return nil
 }
 
-// Publisher function to instantiate kafka publisher
-func Publisher(cfg Config) (Publisher, err) {
+// Producer function to instantiate kafka publisher
+func Producer(cfg Config) (Publisher, err) {
     producer, err := sarama.NewSyncProducer(cfg.BrokerList(), s.cfg.SaramaConfig())
     if err != nil {
         return nil, err
