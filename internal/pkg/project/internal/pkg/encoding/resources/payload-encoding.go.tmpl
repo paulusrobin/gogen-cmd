@@ -6,10 +6,10 @@ import (
 	validator "github.com/paulusrobin/gogen-golib/validator/interface"
 )
 
-func Decode{{.EndpointName}}Request(validator validator.Validation) func(c echo.Context) (interface{}, error) {
-	return func(c echo.Context) (interface{}, error) {
+func Decode{{.EndpointName}}Request(validator validator.Validation) func(ec echo.Context) (interface{}, error) {
+	return func(ec echo.Context) (interface{}, error) {
 		var request dto.{{.EndpointName}}EndpointRequest
-		if err := c.Bind(&request); err != nil {
+		if err := ec.Bind(&request); err != nil {
 			return nil, err
 		}
 		request.Mandatory = mandatory.FromContext(ec.Request().Context())
